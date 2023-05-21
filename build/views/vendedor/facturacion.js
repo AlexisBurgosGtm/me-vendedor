@@ -1031,68 +1031,76 @@ function getDataMedidaProducto(codprod,desprod,codmedida,cantidad,equivale,total
 // agrega el producto a temp_ventas
 async function fcnAgregarProductoVenta(codprod,desprod,codmedida,cantidad,equivale,totalunidades,costo,precio,exento){
    
-    if(Number(GlobalSelectedExistencia)<Number(totalunidades)){
-        funciones.AvisoError('No pude agregar una cantidad mayor a la existencia');
-        return;
-    };
+    db_totalunidades_producto(codprod)
+    .then((totaluns)=>{
+        //---------------------------------------------------------
 
-    document.getElementById('btnAgregarProducto').innerHTML = GlobalLoader;
-    document.getElementById('btnAgregarProducto').disabled = true;
+        if(Number(GlobalSelectedExistencia)<(Number(totalunidades)+Number(totaluns))){
+            funciones.AvisoError('No pude agregar una cantidad mayor a la existencia');
+            return;
+        };
+    
+        document.getElementById('btnAgregarProducto').innerHTML = GlobalLoader;
+        document.getElementById('btnAgregarProducto').disabled = true;
+    
+        //document.getElementById('tblResultadoBusqueda').innerHTML = '';
+        let cmbTipoPrecio = document.getElementById('cmbTipoPrecio');
+            let totalcosto = Number(costo) * Number(cantidad);
+            let totalprecio = Number(precio) * Number(cantidad);
+            console.log('intenta agregar la fila')
+            let coddoc = document.getElementById('cmbCoddoc').value;
+            try {        
+                    var data = {
+                        EMPNIT:GlobalEmpnit,  
+                        CODSUCURSAL:GlobalCodSucursal,
+                        CODDOC:coddoc,     
+                        CODPROD:codprod,
+                        DESPROD:desprod,
+                        CODMEDIDA:codmedida,
+                        CANTIDAD:cantidad,
+                        EQUIVALE:equivale,
+                        TOTALUNIDADES:totalunidades,
+                        COSTO:costo,
+                        PRECIO:precio,
+                        TOTALCOSTO:totalcosto,
+                        TOTALPRECIO:totalprecio,
+                        EXENTO:exento,
+                        USUARIO:GlobalUsuario,
+                        TIPOPRECIO:cmbTipoPrecio.value,
+                        EXISTENCIA:GlobalSelectedExistencia
+                    };
+    
+                    insertTempVentas(data)
+                    .then(()=>{                    
+          
+                            $('#ModalCantidadProducto').modal('hide') //MARCADOR
+                            funciones.showToast('Agregado: ' + desprod);
+                            
+                            fcnCargarGridTempVentas('tblGridTempVentas');
+                            
+                            document.getElementById('btnAgregarProducto').innerHTML  = `<i class="fal fa-check"></i>Agregar`;
+                            document.getElementById('btnAgregarProducto').disabled = false;
+                            let txbusqueda = document.getElementById('txtBusqueda');
+                            txbusqueda.value = '';
+                            
+                      })
+                      .catch(
+                          ()=>{
+                            document.getElementById('btnAgregarProducto').innerHTML  = `<i class="fal fa-check"></i>Agregar`;
+                            document.getElementById('btnAgregarProducto').disabled = false;
+                            funciones.AvisoError('No se pudo agregar este producto a la venta actual');
+                          }
+                      )
+            
+            } catch (error) {
+                document.getElementById('btnAgregarProducto').innerHTML  = `<i class="fal fa-check"></i>Agregar`;
+                document.getElementById('btnAgregarProducto').disabled = false;
+            }
+       
 
-    //document.getElementById('tblResultadoBusqueda').innerHTML = '';
-    let cmbTipoPrecio = document.getElementById('cmbTipoPrecio');
-        let totalcosto = Number(costo) * Number(cantidad);
-        let totalprecio = Number(precio) * Number(cantidad);
-        console.log('intenta agregar la fila')
-        let coddoc = document.getElementById('cmbCoddoc').value;
-        try {        
-                var data = {
-                    EMPNIT:GlobalEmpnit,  
-                    CODSUCURSAL:GlobalCodSucursal,
-                    CODDOC:coddoc,     
-                    CODPROD:codprod,
-                    DESPROD:desprod,
-                    CODMEDIDA:codmedida,
-                    CANTIDAD:cantidad,
-                    EQUIVALE:equivale,
-                    TOTALUNIDADES:totalunidades,
-                    COSTO:costo,
-                    PRECIO:precio,
-                    TOTALCOSTO:totalcosto,
-                    TOTALPRECIO:totalprecio,
-                    EXENTO:exento,
-                    USUARIO:GlobalUsuario,
-                    TIPOPRECIO:cmbTipoPrecio.value,
-                    EXISTENCIA:GlobalSelectedExistencia
-                };
-
-                insertTempVentas(data)
-                .then(()=>{                    
-      
-                        $('#ModalCantidadProducto').modal('hide') //MARCADOR
-                        funciones.showToast('Agregado: ' + desprod);
-                        
-                        fcnCargarGridTempVentas('tblGridTempVentas');
-                        
-                        document.getElementById('btnAgregarProducto').innerHTML  = `<i class="fal fa-check"></i>Agregar`;
-                        document.getElementById('btnAgregarProducto').disabled = false;
-                        let txbusqueda = document.getElementById('txtBusqueda');
-                        txbusqueda.value = '';
-                        
-                  })
-                  .catch(
-                      ()=>{
-                        document.getElementById('btnAgregarProducto').innerHTML  = `<i class="fal fa-check"></i>Agregar`;
-                        document.getElementById('btnAgregarProducto').disabled = false;
-                        funciones.AvisoError('No se pudo agregar este producto a la venta actual');
-                      }
-                  )
-        
-        } catch (error) {
-            document.getElementById('btnAgregarProducto').innerHTML  = `<i class="fal fa-check"></i>Agregar`;
-            document.getElementById('btnAgregarProducto').disabled = false;
-        }
-   
+        //---------------------------------------------------------
+    })
+ 
 
 };
 

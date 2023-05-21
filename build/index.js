@@ -95,21 +95,22 @@ window.onpopstate = function(event) {
     }
 }
 
-console.log('agregando listener a cargar db pedidos')
 let cmbTipoDb = document.getElementById('cmbTipoDb');
 cmbTipoDb.addEventListener('change',()=>{
 
-      try {
-          if(cmbTipoDb.value=='ACTUAL'){
-              console.log('cargando pedidos actuales...')
-              dbCargarPedidosPendientes();
-          }else{
-              console.log('cargando pedidos viejos...')
-              dbCargarPedidosPendientes_old();
-          }
-      } catch (error) {
-        
-      }
+    switch (cmbTipoDb.value) {
+      case 'PROPIO':
+        GlobalUrlServicePedidos = '';
+        break;
+      
+      case 'SMARTERASP':
+        GlobalUrlServicePedidos = 'http://alexissoporte-001-site2.etempurl.com';
+        break;
+    
+      default:
+        GlobalUrlServicePedidos = '';
+        break;
+    }
           
           
       

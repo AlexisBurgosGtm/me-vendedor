@@ -58,7 +58,7 @@ let apigen = {
     empleadosLogin : (sucursal,user,pass)=>{
         let f = new Date();
         return new Promise((resolve,reject)=>{
-            axios.get(`/empleados/login?codsucursal=${sucursal}&user=${user}&pass=${pass}`)
+            axios.get(GlobalServerUrl + `/empleados/login?codsucursal=${sucursal}&user=${user}&pass=${pass}`)
             .then((response) => {
                 const data = response.data.recordset;
                 if(response.data.rowsAffected[0]==1){
@@ -73,10 +73,18 @@ let apigen = {
                             GlobalSistema = sucursal;
                             GlobalObjetivoVenta = Number(rows.OBJETIVO);
                             GlobalSelectedDiaUpdated = Number(f.getDate());
-                            if(GlobalTipoUsuario=='VENDEDOR'){
-                                classNavegar.inicioVendedor();
-                            }else{
-                                classNavegar.inicio_supervisor();
+                            
+                            
+                            switch (GlobalTipoUsuario.toString()) {
+                                case 'VENDEDOR':
+                                    classNavegar.inicioVendedor();    
+                                    break;
+                                case 'SUPERVISOR':
+                                    classNavegar.inicio_supervisor();    
+                                    break;
+                                case 'REPARTIDOR':
+                                    classNavegar.inicio_repartidor();
+                                    break;
                             }
                                
                         }        

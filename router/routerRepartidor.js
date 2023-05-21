@@ -2,6 +2,66 @@ const execute = require('./connection');
 const express = require('express');
 const router = express.Router();
 
+
+// EMBARQUES DEL REPARTIDOR
+router.post("/embarques_repartidor", async(req,res)=>{
+    
+    const { sucursal, codrep} = req.body;
+            
+    let qry ='';
+
+    qry = `SELECT CODEMBARQUE, RUTA, FECHA, FINALIZADO 
+            FROM ME_REPARTO_EMBARQUES 
+            WHERE CODSUCURSAL='${sucursal}' 
+            AND CODEMPLEADO=${codrep}
+            `;     
+  
+    execute.Query(res,qry);
+
+});
+
+// PEDIDOS EN EMBARQUE
+router.post("/embarque_documentos", async(req,res)=>{
+    
+    const { sucursal, codembarque} = req.body;
+            
+    let qry ='';
+
+    qry = `SELECT FECHA, CODDOC, CORRELATIVO, 
+    NIT, CLIENTE, DIRECCION, MUNICIPIO, 
+    isnull(LAT,0) AS LAT, 
+    ISNULL(LONG,0) AS LONG, 
+    IMPORTE, DIRENTREGA, OBS,
+    CODVEN,VENDEDOR,ST
+    FROM ME_REPARTO_DOCUMENTOS
+    WHERE (CODEMBARQUE = '${codembarque}') 
+    AND (CODSUCURSAL = '${sucursal}')`;     
+  
+    execute.Query(res,qry);
+
+});
+
+router.post("/mapaembarque", async(req,res)=>{
+    
+    const { sucursal, embarque} = req.body;
+            
+    let qry ='';
+
+    qry = `SELECT CODDOC, CORRELATIVO, NIT, CLIENTE, DIRECCION, MUNICIPIO, ISNULL(LAT,0) AS LAT, ISNULL(LONG,0) AS LONG, IMPORTE, VENDEDOR 
+                FROM ME_REPARTO_DOCUMENTOS 
+                WHERE CODSUCURSAL='${sucursal}' AND CODEMBARQUE='${embarque}'`;     
+  
+    execute.Query(res,qry);
+
+});
+
+
+
+
+
+
+
+
 // EMBARQUES DEL VENDEDOR
 router.post("/embarquesvendedor", async(req,res)=>{
     
@@ -35,33 +95,6 @@ router.post("/facturasvendedor", async(req,res)=>{
 
 });
 
-// EMBARQUES DEL REPARTIDOR
-router.post("/embarquesrepartidor", async(req,res)=>{
-    
-    const { sucursal, codrepartidor} = req.body;
-            
-    let qry ='';
-
-    qry = `SELECT CODEMBARQUE AS CODIGO, RUTA, FECHA FROM ME_REPARTO_EMBARQUES WHERE CODSUCURSAL='${sucursal}' AND CODEMPLEADO=${codrepartidor}`;     
-  
-    execute.Query(res,qry);
-
-});
-
-// PEDIDOS EN EMBARQUE
-router.post("/embarque", async(req,res)=>{
-    
-    const { sucursal, codembarque} = req.body;
-            
-    let qry ='';
-
-    qry = `SELECT FECHA, CODDOC, CORRELATIVO, NIT, CLIENTE, DIRECCION, MUNICIPIO, isnull(LAT,0) AS LAT, ISNULL(LONG,0) AS LONG, IMPORTE, DIRENTREGA, OBS,CODVEN,VENDEDOR,ST
-    FROM ME_REPARTO_DOCUMENTOS
-    WHERE (CODEMBARQUE = '${codembarque}') AND (CODSUCURSAL = '${sucursal}')`;     
-  
-    execute.Query(res,qry);
-
-});
 
 
 router.post("/detallepedido", async(req,res)=>{
@@ -76,19 +109,6 @@ router.post("/detallepedido", async(req,res)=>{
 
 });
 
-router.post("/mapaembarque", async(req,res)=>{
-    
-    const { sucursal, embarque} = req.body;
-            
-    let qry ='';
-
-    qry = `SELECT CODDOC, CORRELATIVO, NIT, CLIENTE, DIRECCION, MUNICIPIO, ISNULL(LAT,0) AS LAT, ISNULL(LONG,0) AS LONG, IMPORTE, VENDEDOR 
-                FROM ME_REPARTO_DOCUMENTOS 
-                WHERE CODSUCURSAL='${sucursal}' AND CODEMBARQUE='${embarque}'`;     
-  
-    execute.Query(res,qry);
-
-});
 
 router.post("/marcarpedido", async(req,res)=>{
     

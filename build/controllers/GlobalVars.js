@@ -1,4 +1,6 @@
-let versionapp = 'Versión 03.2023.22.1';
+let versionapp = 'Versión 05.2023';
+let GlobalServerUrl = '';
+let GlobalUrlServicePedidos = '';
 
 let root = document.getElementById('root');
 let rootMenu = document.getElementById('rootMenu');

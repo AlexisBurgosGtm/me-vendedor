@@ -569,6 +569,23 @@ function selectTempventas(usuario) {
     });
 };
 
+function db_totalunidades_producto(codprod) {
+
+    return new Promise(async(resolve,reject)=>{
+        var response = await connection.select({
+            from: "tempventa",
+            where: {
+                    CODPROD: codprod.toString()
+                }
+        });
+        let totalunidades = 0;
+        response.map((r)=>{
+            totalunidades += Number(r.TOTALUNIDADES);
+        })
+        resolve(totalunidades);
+    });
+};
+
 function selectDataRowVenta(id,nuevacantidad) {
     let costo = 0; let precio = 0; let equivale =0; let exento=0; let cantidad= nuevacantidad;
     return new Promise(async(resolve,reject)=>{
@@ -1043,7 +1060,7 @@ function dbSendPedido(id,idbtn){
                         
                         setLog(`<label class="text-info">Intentando enviar el pedido...</label>`,'rootWait');
                 
-                        axios.post('/ventas/insertventa', datos)
+                        axios.post(GlobalUrlServicePedidos + '/ventas/insertventa', datos)
                         .then(async(response) => {
                             const data = response.data;
                             //if (data.rowsAffected[0]==0){

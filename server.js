@@ -21,6 +21,11 @@ var io = require('socket.io')(http);
 
 const PORT = process.env.PORT || 4300;
 
+const cors = require('cors');
+app.use(cors({
+    origin: '' //orign: ["www.app1.com","www.app2.com"]
+}));
+
 app.use(bodyParser.json());
 
 app.use(express.static('build'));

@@ -13,12 +13,15 @@ let classNavegar = {
             .then(()=>{
                 GlobalSelectedForm='LOGIN';
                 InicializarVista();
+
                 rootMenuFooter.innerHTML = '<b class="text-white">Mercados Efectivos</b>';
                 if(historial=='SI'){
 
                 }else{
                     window.history.pushState({"page":0}, "login", GlobalUrl + '/login')
                 }
+
+                document.getElementById('btnPedidosPend').style="visibility:hidden";
                 
             })
         
@@ -110,6 +113,7 @@ let classNavegar = {
                     //classNavegar.ventasMapaClientes();
                     classNavegar.inicioVendedorListado();
 
+                    document.getElementById('btnPedidosPend').style="visibility:visible";
 
                     let btnMConfig = document.getElementById('btnMConfig');
                     btnMConfig.addEventListener('click',()=>{
@@ -203,17 +207,6 @@ let classNavegar = {
                 }
         })
     },
-    despacho: async()=>{
-        funciones.loadView('../views/despacho/index.html','root')
-        .then(()=>{
-            funciones.loadScript('./views/despacho/controller.js','root')
-            .then(()=>{
-                GlobalSelectedForm ='DESPACHO';
-                controllerdespacho.iniciarVistaDespacho();
-
-            })
-        })
-    },
     ConfigVendedor: ()=>{
         funciones.loadScript('../views/config.js','root')
         .then(()=>{
@@ -261,6 +254,8 @@ let classNavegar = {
                     //actualiza las credenciales
                     updateDateDownload();
 
+                    document.getElementById('btnPedidosPend').style="visibility:hidden";
+
                     classNavegar.supervisor_ventas();
 
                   
@@ -289,5 +284,32 @@ let classNavegar = {
             initView();
             //window.history.pushState({"page":2}, "facturacion", GlobalUrl + '/facturacion')
         })
-    }
+    },
+    inicio_repartidor : async ()=>{
+        console.log('inicio Repartidor....')
+
+        let strFooter =    `
+                            `
+                    rootMenuFooter.innerHTML = strFooter;
+                                               
+                                        
+                  
+                    //actualiza la ubicación del empleado
+                    await classEmpleados.updateMyLocation();
+
+                    
+                    document.getElementById('btnPedidosPend').style="visibility:hidden";
+
+                    classNavegar.repartidor_inicio();
+
+                  
+             
+    },
+    repartidor_inicio:()=>{
+        funciones.loadScript('./views/repartidor/repartidor.js','root')
+        .then(()=>{
+            GlobalSelectedForm ='REPARTIDOR';
+            initView();
+        })
+    },
 }
