@@ -107,6 +107,9 @@ cmbTipoDb.addEventListener('change',()=>{
         GlobalUrlServicePedidos = 'http://alexissoporte-001-site2.etempurl.com';
         break;
     
+      case 'HEROKU':
+        GlobalUrlServicePedidos = 'https://mercados-efectivos-api.herokuapp.com'
+        break;
       default:
         GlobalUrlServicePedidos = '';
         break;

@@ -1,4 +1,4 @@
-let versionapp = 'Versión 05.2023';
+let versionapp = 'Versión 05.2023.21';
 let GlobalServerUrl = '';
 let GlobalUrlServicePedidos = '';
 
