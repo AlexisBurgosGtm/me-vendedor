@@ -1018,7 +1018,7 @@ function dbSendPedido(id,idbtn){
                 setLog(`<label class="text-danger">Intentando obtener el correlativo de documentos...</label>`,'rootWait');
                 $('#modalWait').modal('show');
 
-                classTipoDocumentos.getCorrelativoDocumento('PED',GlobalCoddoc)
+                classTipoDocumentos.get_Correlativo_Documento_service('PED',GlobalCoddoc)
                 .then((correlativo)=>{
                     //lee el documento de la base de datos local y lo intenta enviar
                     setLog(`<label class="text-danger">Cargando los datos del documento para intentarlo enviar...</label>`,'rootWait');

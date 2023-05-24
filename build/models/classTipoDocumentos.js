@@ -95,6 +95,31 @@ let classTipoDocumentos = {
         })
         
     },
+    get_Correlativo_Documento_service: (tipodoc,coddoc)=>{
+        
+        return new Promise((resolve,reject)=>{
+            let correlativo = '0';
+            let data = {
+                empnit:GlobalEmpnit,
+                tipo:tipodoc,
+                coddoc:coddoc,
+                app:GlobalSistema
+            }
+
+            axios.post(GlobalUrlServicePedidos + '/tipodocumentos/correlativodoc', data)
+            .then((response) => {
+                const data = response.data;        
+                data.recordset.map((rows)=>{
+                    correlativo = `${rows.CORRELATIVO}`
+                })
+                resolve(correlativo.toString());            
+            }, (error) => {
+                console.log(error);
+                reject('0');
+            });
+        })
+        
+    },
     updateCorrelativoDocumento: (coddoc,nuevocorrelativo)=>{
         
         return new Promise((resolve,reject)=>{
