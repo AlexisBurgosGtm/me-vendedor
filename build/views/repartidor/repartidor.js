@@ -12,6 +12,9 @@ function getView(){
                         </div>
                         <div class="tab-pane fade" id="tres" role="tabpanel" aria-labelledby="home-tab">
                             ${view.vista_detalle()}
+                        </div>  
+                        <div class="tab-pane fade" id="cuatro" role="tabpanel" aria-labelledby="home-tab">
+                            ${view.vista_mapa()}
                         </div>    
                     </div>
 
@@ -26,6 +29,10 @@ function getView(){
                         </li>  
                         <li class="nav-item">
                             <a class="nav-link negrita text-danger" id="tab-tres" data-toggle="tab" href="#tres" role="tab" aria-controls="home" aria-selected="true">
+                                <i class="fal fa-comments"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link negrita text-danger" id="tab-cuatro" data-toggle="tab" href="#cuatro" role="tab" aria-controls="home" aria-selected="true">
                                 <i class="fal fa-comments"></i></a>
                         </li>         
                     </ul>
@@ -86,6 +93,22 @@ function getView(){
                 <i class="fal fa-arrow-left"></i>
             </button>
             `
+        },
+        vista_mapa:()=>{
+            return `
+            <div class="card card-rounded shadow">
+                <div class="card-body p-0">
+                    <h5 class="negrita text-danger" id="lbEmbarqueMapa"></h5>
+
+                    <div class="" id="container_mapa"></div>
+                    
+                    
+                </div>
+            </div>
+            <button class="btn btn-secondary btn-bottom-ml btn-xl btn-circle hand shadow" id="btnAtrasMapa">
+                <i class="fal fa-arrow-left"></i>
+            </button>
+            `
         }
     }
 
@@ -101,6 +124,10 @@ function addListeners(){
     
     document.getElementById('btnAtrasDetalle').addEventListener('click',()=>{
         document.getElementById('tab-dos').click();
+    });
+
+    document.getElementById('btnAtrasMapa').addEventListener('click',()=>{
+        document.getElementById('tab-uno').click();
     });
 
 
@@ -164,11 +191,23 @@ function get_tbl_embarques_pendientes(){
                 strClassFinalizado='border-info'
             }
             str += `
-            <div class="card card-rounded ${strClassFinalizado} col-12 hand shadow" onclick="get_data_embarque('${r.CODEMBARQUE}')">
+            <div class="card card-rounded ${strClassFinalizado} col-12 hand shadow">
                 <div class="card-body p-4 text-center" id="">
                     <h5 class="negrita text-info">${r.RUTA}</h5>    
                     <h5>${r.CODEMBARQUE}</h5>
                     <label class="negrita text-danger">Fecha: ${funciones.convertDateNormal(r.FECHA)}</label>
+                    <div class="row">
+                        <div class="col-6">
+                            <button class="btn btn-secondary btn-lg hand shadow" onclick="get_mapa_embarque('${r.CODEMBARQUE}')">
+                                <i class="fal fa-map"></i> Mapa
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-info btn-lg hand shadow" onclick="get_data_embarque('${r.CODEMBARQUE}')">
+                                <i class="fal fa-list"></i> Facturas
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <br>
@@ -267,3 +306,115 @@ function get_detalle_factura(coddoc,correlativo){
 };
 
 
+function get_mapa_embarque(codembarque){
+
+    document.getElementById('tab-cuatro').click();
+
+    document.getElementById('lbEmbarqueMapa').innerText = codembarque;
+
+
+    cargarMapaClientes(codembarque);
+
+
+};
+
+// mapa
+
+function showUbicacion(){
+    return new Promise((resolve,reject)=>{
+        try {
+            navigator.geolocation.getCurrentPosition(function (location) {
+                console.log(location);
+                resolve(location);
+            })
+        } catch (error) {
+            reject();
+        }
+    })
+};
+
+function Lmap(lat,long){
+
+    //INICIALIZACION DEL MAPA            
+      var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      osmAttrib = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      osm = L.tileLayer(osmUrl, {center: [lat, long],maxZoom: 20, attribution: osmAttrib});    
+      map = L.map('mapcontainer').setView([lat, long], 11).addLayer(osm);
+
+      var userIcon = L.icon({
+        iconUrl: '../img/userIcon.png',
+        shadowUrl: '../img/marker-shadow.png',
+    
+        iconSize:     [30, 45], // size of the icon
+        shadowSize:   [50, 64], // size of the shadow
+        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+        shadowAnchor: [4, 62],  // the same for the shadow
+        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
+      L.marker([lat, long],{icon:userIcon})
+        .addTo(map)
+        .bindPopup('Mi Ubicación', {closeOnClick: true, autoClose: false})   
+        .openPopup()
+                
+      return map;
+};
+
+function cargarMapaClientes(codembarque){
+    //carga la ubicación actual y general el mapa
+    showUbicacion()
+    .then((location)=>{
+            let lat = location.coords.latitude.toString();
+            let longg = location.coords.longitude.toString();
+            //Number(lat),Number(longg));
+            clientes_embarque(codembarque,'container_mapa',Number(lat),Number(longg))
+            
+    });
+
+};
+
+
+function clientes_embarque(codembarque,idContenedor, lt, lg){
+
+    let container = document.getElementById(idContenedor);
+    container.innerHTML = GlobalLoader;
+    
+    let tbl = `<div class="mapcontainer4" id="mapcontainer"></div>`;        
+    
+    container.innerHTML = tbl;
+    
+    let mapcargado = 0;
+    var map;
+    map = Lmap(lt, lg);
+
+    get_data_documentos_embarque(codembarque)
+    .then((response) => {
+        const data = response.recordset;
+
+        data.map((rows)=>{
+           
+                L.marker([rows.LAT, rows.LONG])
+                .addTo(map)
+                .bindPopup(`${rows.NIT} - ${rows.CLIENTE} <br><small>${rows.DIRECCION}</small><br><small>${funciones.setMoneda(rows.IMPORTE,'Q')}</small>`, {closeOnClick: true, autoClose: true})   
+                .on('click', function(e){
+                    GlobalMarkerId = Number(e.sourceTarget._leaflet_id);
+                    //agregar function 
+                })
+            
+        })
+
+        //RE-AJUSTA EL MAPA A LA PANTALLA
+        setTimeout(function () {
+            try {
+                map.invalidateSize();    
+            } catch (error) {
+                
+            }
+        }, 500);
+
+    }, (error) => {
+        funciones.AvisoError('Error en la solicitud');
+        container.innerHTML = '';
+    });
+       
+}

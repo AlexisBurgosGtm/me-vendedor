@@ -336,3 +336,16 @@ function Lmap(lat,long){
                 
       return map;
 };
+
+function cargarMapaClientes(){
+    //carga la ubicación actual y general el mapa
+    showUbicacion()
+    .then(async(location)=>{
+            let lat = location.coords.latitude.toString();
+            let longg = location.coords.longitude.toString();
+            //Number(lat),Number(longg));
+            await apigen.clientesVendedorMapa(GlobalCodSucursal,GlobalCodUsuario,cmbDiaVisita.value,'tblClientes',Number(lat),Number(longg))
+            
+    });
+
+};
