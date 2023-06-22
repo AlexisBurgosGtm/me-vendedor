@@ -226,7 +226,7 @@ let apigen = {
                                     
                                 </div>
                                 <div class="col-2">
-                                    <button class="btn btn-warning btn-lg btn-circle hand shadow" onclick="getEditCliente('${rows.CODIGO}','${rows.NOMCLIE}','${rows.DIRCLIE}','${rows.TELEFONO}','${rows.LAT}','${rows.LONG}','${rows.NIT}','${rows.TIPONEGOCIO}','${rows.NEGOCIO}');">
+                                    <button class="btn btn-warning btn-lg btn-circle hand shadow" onclick="getEditCliente('${rows.CODIGO}','${rows.NOMCLIE}','${rows.DIRCLIE}','${rows.REFERENCIA}','${rows.TELEFONO}','${rows.LAT}','${rows.LONG}','${rows.NIT}','${rows.TIPONEGOCIO}','${rows.NEGOCIO}');">
                                         <i class="fal fa-edit"></i>
                                     </button>
                                 </div>
@@ -277,7 +277,7 @@ let apigen = {
                                             
                                         </div>
                                         <div class="col-2">
-                                            <button class="btn btn-warning btn-lg btn-circle hand shadow" onclick="getEditCliente('${rows.CODIGO}','${rows.NOMCLIE}','${rows.DIRCLIE}','${rows.TELEFONO}','${rows.LAT}','${rows.LONG}','${rows.NIT}','${rows.TIPONEGOCIO}','${rows.NEGOCIO}');">
+                                            <button class="btn btn-warning btn-lg btn-circle hand shadow" onclick="getEditCliente('${rows.CODIGO}','${rows.NOMCLIE}','${rows.DIRCLIE}','${rows.REFERENCIA}','${rows.TELEFONO}','${rows.LAT}','${rows.LONG}','${rows.NIT}','${rows.TIPONEGOCIO}','${rows.NEGOCIO}');">
                                                 <i class="fal fa-edit"></i>
                                             </button>
                                         </div>

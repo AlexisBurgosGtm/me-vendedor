@@ -404,6 +404,14 @@ function getView(){
                                     <label class="negrita">Dirección</label>
                                     <input type="text" id="txtEditDireccion" class="form-control">
                                 </div>
+
+
+                                <div class="form-group">
+                                    <label class="negrita">Referencia</label>
+                                    <input type="text" id="txtEditReferencia" class="form-control">
+                                </div>
+
+                                
                                
                                 <div class="row">
                                     
@@ -573,7 +581,7 @@ function getMenuCliente2(codigo,nombre,direccion,telefono,lat,long,nit){
 
 };
 
-function getEditCliente(codigo,nombre,direccion,telefono,lat,long,nit,tiponegocio,negocio){
+function getEditCliente(codigo,nombre,direccion,referencia,telefono,lat,long,nit,tiponegocio,negocio){
     
     
     //map.remove()
@@ -582,6 +590,7 @@ function getEditCliente(codigo,nombre,direccion,telefono,lat,long,nit,tiponegoci
     document.getElementById('txtEditNit').value = nit;
     document.getElementById('txtEditNombre').value = nombre;
     document.getElementById('txtEditDireccion').value = direccion; 
+    document.getElementById('txtEditReferencia').value = referencia;
     document.getElementById('txtEditLatitud').value = lat;
     document.getElementById('txtEditLongitud').value = long;
     document.getElementById('cmbEditTipoNegocio').value = tiponegocio;
@@ -784,14 +793,16 @@ async function addListeners(){
             let negocio = document.getElementById('txtEditNegocio').value || 'SN';
             let nombre = document.getElementById('txtEditNombre').value || 'SN';
             let direccion = document.getElementById('txtEditDireccion').value || 'SN';
+            let referencia = document.getElementById('txtEditReferencia').value || 'SN';
             let latitud = document.getElementById('txtEditLatitud').value || 0;
             let longitud = document.getElementById('txtEditLongitud').value || 0;
+            
 
             if (negocio=='SN'){funciones.AvisoError('Escriba el nombre del negocio');return;}
             if (nombre=='SN'){funciones.AvisoError('Escriba el nombre del negocio');return;}
 
 
-            send_solicitud_cliente(GlobalSelectedCodCliente,nit,tiponegocio,negocio,nombre,direccion,latitud,longitud)
+            send_solicitud_cliente(GlobalSelectedCodCliente,nit,tiponegocio,negocio,nombre,direccion,referencia,latitud,longitud)
             .then(()=>{
                 funciones.Aviso('Solicitud enviada exitosamente!!');
                 btnEnviarCambiosCliente.disabled = false;
@@ -1108,7 +1119,7 @@ function inicializarVista(){
 
 
 
-function send_solicitud_cliente(codclie,nitclie,tiponegocio,negocio,nomclie,dirclie,lat,long){
+function send_solicitud_cliente(codclie,nitclie,tiponegocio,negocio,nomclie,dirclie,referencia,lat,long){
     
     return new Promise((resolve,reject)=>{
         axios.post('/clientes/solicitud_cambios_cliente',{
@@ -1119,6 +1130,7 @@ function send_solicitud_cliente(codclie,nitclie,tiponegocio,negocio,nomclie,dirc
            negocio: negocio,
            nomclie: nomclie,
            dirclie: dirclie,
+           referencia: referencia,
            lat: lat,
            long: long
         })
