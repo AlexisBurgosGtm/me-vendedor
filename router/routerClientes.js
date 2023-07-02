@@ -263,5 +263,26 @@ router.get("/departamentos", async(req,res)=>{
 });
 
 
+router.post("/municipios", async(req,res)=>{
+    const {sucursal} = req.body;
+    let qry ='';
+
+    qry = `SELECT CODMUNI, DESMUNI FROM ME_MUNICIPIOS WHERE CODSUCURSAL='${sucursal}' ORDER BY PRIMERO DESC`         
+
+    execute.Query(res,qry);
+});
+
+//LISTADO DE MUNICIPIOS EN EL SISTEMA
+router.post("/departamentos", async(req,res)=>{
+    const {sucursal} = req.body;
+    let qry ='';
+
+    qry = `SELECT CODDEPTO, DESDEPTO FROM ME_DEPARTAMENTOS WHERE CODSUCURSAL='${sucursal}' ORDER BY PRIMERO DESC`         
+
+    execute.Query(res,qry);
+    
+});
+
+
 
 module.exports = router;

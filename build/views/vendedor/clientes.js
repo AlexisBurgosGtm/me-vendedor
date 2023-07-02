@@ -983,6 +983,7 @@ async function addListeners(){
                                 }
                             }
                         });
+                        fcn_get_mun_deptos();
                     })
                     .catch(()=>{
                        

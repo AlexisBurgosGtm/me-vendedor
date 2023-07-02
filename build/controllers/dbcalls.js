@@ -496,6 +496,149 @@ async function getTotalClientes(idLbTotal) {
         document.getElementById(idLbTotal).innerText = response;
 };
 
+
+function fcn_get_mun_deptos(){
+
+    downloadMunicipios()
+    .then((data)=>{
+        deleteMunicipios()
+        .then(()=>{
+            data.recordset.map(async(rows)=>{
+                var datosdb = {
+                    CODMUNI:rows.CODMUNI,
+                    DESMUNI:rows.DESMUNI
+                }                
+                var noOfRowsInserted = await connection.insert({
+                    into: "municipios",
+                    values: [datosdb], //you can insert multiple values at a time
+                });
+                if (noOfRowsInserted > 0) {
+                    
+                }
+            });
+        })
+    })
+    .catch(()=>{
+        
+    });
+
+
+    downloadDepartamentos()
+    .then((data)=>{
+        deleteDepartamentos()
+        .then(()=>{
+            data.recordset.map(async(rows)=>{
+                var datosdb = {
+                    CODDEPTO:rows.CODDEPTO,
+                    DESDEPTO:rows.DESDEPTO
+                }                
+                var noOfRowsInserted = await connection.insert({
+                    into: "departamentos",
+                    values: [datosdb], //you can insert multiple values at a time
+                });
+                if (noOfRowsInserted > 0) {
+                    
+                }
+            });
+        })
+    })
+    .catch(()=>{
+        
+    });
+
+};
+
+function downloadMunicipios (){
+return new Promise((resolve,reject)=>{
+
+axios.post('/clientes/municipios', {
+    sucursal: GlobalCodSucursal
+})  
+.then(async(response) => {
+    const data = response.data;
+    if(data.rowsAffected[0]==0){
+        reject();
+    }else{  
+        resolve(data);
+    }
+}, (error) => {
+   reject();
+});
+
+})   
+
+
+};
+
+function downloadDepartamentos(){
+return new Promise((resolve,reject)=>{
+
+axios.post('/clientes/departamentos', {
+    sucursal: GlobalCodSucursal
+})  
+.then(async(response) => {
+    const data = response.data;
+    if(data.rowsAffected[0]==0){
+        reject();
+    }else{  
+        resolve(data);
+    }
+}, (error) => {
+   reject();
+});
+
+})      
+};
+
+function deleteMunicipios(){
+return new Promise((resolve,reject)=>{
+//setLog(`<label class="text-danger">Eliminando Clientes...</label>`,'rootWait');
+let del = connection.clear('municipios');
+if(del){
+    resolve();
+}else{
+    reject();
+}
+})            
+};
+
+
+function deleteDepartamentos(){
+return new Promise((resolve,reject)=>{
+//setLog(`<label class="text-danger">Eliminando Clientes...</label>`,'rootWait');
+let del = connection.clear('departamentos');
+if(del){
+    resolve();
+}else{
+    reject();
+}
+})            
+};
+
+
+function db_select_municipios() {
+
+return new Promise(async(resolve,reject)=>{
+var response = await connection.select({
+    from: "municipios"
+});
+resolve(response)
+});
+};
+
+function db_select_departamentos() {
+
+return new Promise(async(resolve,reject)=>{
+var response = await connection.select({
+    from: "departamentos"
+});
+resolve(response)
+});
+};
+
+
+
+
 async function getTotalProductos(idLbTotal) {
 
  

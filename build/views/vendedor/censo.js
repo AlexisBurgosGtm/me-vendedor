@@ -1013,6 +1013,36 @@ function getComboMunicipios(idContainer){
     let contenedor = document.getElementById(idContainer);
     let strdata = '';
     
+    db_select_municipios()
+    .then((data)=>{
+        data.map((rows)=>{
+                strdata = strdata + `<option value='${rows.CODMUNI}'>${rows.DESMUNI}</option>`
+        })
+        contenedor.innerHTML = strdata;
+    })
+  
+};
+
+function getComboDepartamentos(idContainer){
+    let contenedor = document.getElementById(idContainer);
+    let strdata = '';
+    
+
+    db_select_departamentos()
+    .then((data)=>{
+        data.map((rows)=>{
+                strdata = strdata + `<option value='${rows.CODDEPTO}'>${rows.DESDEPTO}</option>`
+        })
+        contenedor.innerHTML = strdata;
+    })
+
+ 
+};
+
+function BACKUP_getComboMunicipios(idContainer){
+    let contenedor = document.getElementById(idContainer);
+    let strdata = '';
+    
     axios.get('/censo/municipios', {
         params:{
             sucursal: GlobalCodSucursal
@@ -1029,7 +1059,7 @@ function getComboMunicipios(idContainer){
     });
 };
 
-function getComboDepartamentos(idContainer){
+function BACKUP_getComboDepartamentos(idContainer){
     let contenedor = document.getElementById(idContainer);
     let strdata = '';
     
