@@ -98,24 +98,23 @@ window.onpopstate = function(event) {
 let cmbTipoDb = document.getElementById('cmbTipoDb');
 cmbTipoDb.addEventListener('change',()=>{
 
-    switch (cmbTipoDb.value) {
-      case 'PROPIO':
-        GlobalUrlServicePedidos = '';
-        break;
+      switch (cmbTipoDb.value) {
+        case 'PROPIO':
+          GlobalUrlServicePedidos = '';
+          break;
+        
+        case 'RENDER':
+          GlobalUrlServicePedidos = 'https://backend-mercados-efectivos.onrender.com';
+          break;
       
-      case 'SMARTERASP':
-        GlobalUrlServicePedidos = 'http://alexissoporte-001-site2.etempurl.com';
-        break;
-    
-      case 'HEROKU':
-        GlobalUrlServicePedidos = 'https://mercados-efectivos-api.herokuapp.com'
-        break;
-      default:
-        GlobalUrlServicePedidos = '';
-        break;
-    }
-          
-          
+        case 'HEROKU':
+          GlobalUrlServicePedidos = 'https://mercados-efectivos-api.herokuapp.com';
+          break;
+        default:
+          GlobalUrlServicePedidos = '';
+          break;
+      }
+             
       
 })
 
