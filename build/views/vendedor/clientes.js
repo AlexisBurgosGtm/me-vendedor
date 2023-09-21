@@ -405,6 +405,11 @@ function getView(){
                                     <input type="text" id="txtEditDireccion" class="form-control">
                                 </div>
 
+                                <div class="form-group">
+                                    <label class="negrita">Teléfono</label>
+                                    <input type="text" id="txtEditTelefono" class="form-control">
+                                </div>
+
 
                                 <div class="form-group">
                                     <label class="negrita">Referencia</label>
@@ -793,16 +798,18 @@ async function addListeners(){
             let negocio = document.getElementById('txtEditNegocio').value || 'SN';
             let nombre = document.getElementById('txtEditNombre').value || 'SN';
             let direccion = document.getElementById('txtEditDireccion').value || 'SN';
+            let telefono = document.getElementById('txtEditTelefono').value || '0';
             let referencia = document.getElementById('txtEditReferencia').value || 'SN';
             let latitud = document.getElementById('txtEditLatitud').value || 0;
             let longitud = document.getElementById('txtEditLongitud').value || 0;
+
             
 
             if (negocio=='SN'){funciones.AvisoError('Escriba el nombre del negocio');return;}
             if (nombre=='SN'){funciones.AvisoError('Escriba el nombre del negocio');return;}
 
 
-            send_solicitud_cliente(GlobalSelectedCodCliente,nit,tiponegocio,negocio,nombre,direccion,referencia,latitud,longitud)
+            send_solicitud_cliente(GlobalSelectedCodCliente,nit,tiponegocio,negocio,nombre,direccion,telefono,referencia,latitud,longitud)
             .then(()=>{
                 funciones.Aviso('Solicitud enviada exitosamente!!');
                 btnEnviarCambiosCliente.disabled = false;
@@ -1120,7 +1127,7 @@ function inicializarVista(){
 
 
 
-function send_solicitud_cliente(codclie,nitclie,tiponegocio,negocio,nomclie,dirclie,referencia,lat,long){
+function send_solicitud_cliente(codclie,nitclie,tiponegocio,negocio,nomclie,dirclie,telefono,referencia,lat,long){
     
     return new Promise((resolve,reject)=>{
         axios.post('/clientes/solicitud_cambios_cliente',{
@@ -1131,6 +1138,7 @@ function send_solicitud_cliente(codclie,nitclie,tiponegocio,negocio,nomclie,dirc
            negocio: negocio,
            nomclie: nomclie,
            dirclie: dirclie,
+           telefono:telefono,
            referencia: referencia,
            lat: lat,
            long: long

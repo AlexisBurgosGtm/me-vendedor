@@ -80,25 +80,19 @@ let classNavegar = {
                         classNavegar.inicioVendedorListado();
                     });
 
-
                     let btnMenu2VendedorClientesMapa = document.getElementById('btnMenu2VendedorClientesMapa');
                     btnMenu2VendedorClientesMapa.addEventListener('click',()=>{
                         classNavegar.ventasMapaClientes();
                     });
-
-             
              
                     let btnMenu2VendedorLogro = document.getElementById('btnMenu2VendedorLogro');
                     btnMenu2VendedorLogro.addEventListener('click',()=>{
                         classNavegar.logrovendedor();
                     });
-
                  
                     let btnMenu2Censo = document.getElementById('btnMenu2Censo');
                     btnMenu2Censo.addEventListener('click',()=>{
-
                         classNavegar.inicio_censo();
-
                     });
 
                     let btnMenu2VendedorSync = document.getElementById('btnMenu2VendedorSync');
@@ -106,11 +100,8 @@ let classNavegar = {
                         $('#modalSync').modal('show');
                     });
 
-                 
-                    //actualiza la ubicación del empleado
                     await classEmpleados.updateMyLocation();
 
-                    //classNavegar.ventasMapaClientes();
                     classNavegar.inicioVendedorListado();
 
                     document.getElementById('btnPedidosPend').style="visibility:visible";
@@ -227,6 +218,10 @@ let classNavegar = {
                                 <i class="fal fa-clock"></i>
                                 Horarios
                             </button>
+                            <button class="btn btn-sm "  id="btnMenu2SuperPrecios">
+                                <i class="fal fa-box"></i>
+                                Lista Precios
+                            </button>
                             `
                     rootMenuFooter.innerHTML = strFooter;
                                                
@@ -244,6 +239,11 @@ let classNavegar = {
                     let btnMenu2SuperHorarios = document.getElementById('btnMenu2SuperHorarios');
                     btnMenu2SuperHorarios.addEventListener('click',()=>{
                             classNavegar.supervisor_horarios();
+                    });
+
+                    let btnMenu2SuperPrecios = document.getElementById('btnMenu2SuperPrecios');
+                    btnMenu2SuperPrecios.addEventListener('click',()=>{
+                            classNavegar.supervisor_precios();
                     });
 
                 
@@ -281,6 +281,14 @@ let classNavegar = {
         funciones.loadScript('./views/supervisor/horarios.js','root')
         .then(()=>{
             GlobalSelectedForm ='SUPERVISORHORARIOS';
+            initView();
+            //window.history.pushState({"page":2}, "facturacion", GlobalUrl + '/facturacion')
+        })
+    },
+    supervisor_precios:()=>{
+        funciones.loadScript('./views/supervisor/precios.js','root')
+        .then(()=>{
+            GlobalSelectedForm ='SUPERVISOR';
             initView();
             //window.history.pushState({"page":2}, "facturacion", GlobalUrl + '/facturacion')
         })
