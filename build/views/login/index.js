@@ -4,21 +4,21 @@ function getView(){
             return `
         <div class="row">
      
-            <div class="col-md-4 col-sm-12 col-lg-4 col-lx-4">
+            <div class="col-md-3 col-sm-0 col-lg-3 col-lx-3">
                 
             </div>
 
-            <div class="col-md-4 col-sm-12 col-lg-4 col-lx-4">
+            <div class="col-md-5 col-sm-12 col-lg-5 col-lx-5">
    
-                <div class="card shadow p-2 card-rounded border-info">
+                <div class="card shadow p-2 card-rounded border-secondary">
 
                     <div class="card-header text-center bg-white">
                         <div class="row">
                             <div class="col-4">
 
                             </div>
-                            <div class="col-4">
-                                <img src="./favicon.png" width="60" height="60">                            
+                            <div id="parallax_logo" class="col-4">
+                                <img data-depth="1.0" src="./favicon.png" width="65" height="65">                            
                             </div>
                             <div class="col-4" align="right">
                                 <br>
@@ -87,12 +87,7 @@ function getView(){
 
             <div class="col-md-4 col-sm-12 col-lg-4 col-lx-4"></div>
 
-       
-           
-                <div class="footer-banner">   
-                    <img src="./img/footer.png" width="600" height="200">
-                </div> 
-                       
+                         
 
        
             `
@@ -112,13 +107,15 @@ function addListeners(){
     let btnIniciar = document.getElementById('btnIniciar');
     frmLogin.addEventListener('submit',(e)=>{
         e.preventDefault();
-
+    
         almacenarCredenciales();
 
         btnIniciar.innerHTML = '<i class="fal fa-unlock fa-spin"></i>';
         btnIniciar.disabled = true;
+
         apigen.empleadosLogin(frmLogin.cmbSucursal.value,frmLogin.txtUser.value.trim(),frmLogin.txtPass.value.trim())
         .then(()=>{
+            
             //document.body.requestFullscreen();
             //por lo visto se deshabilitan las scroll bars en fullscreen
             selectDateDownload();
@@ -144,7 +141,12 @@ function addListeners(){
         }
     })
    
-  
+
+    
+    var parallax_logo = document.getElementById('parallax_logo');
+    var parallaxInstance = new Parallax(parallax_logo);
+   
+
 };
 
 
@@ -153,8 +155,7 @@ function InicializarVista(){
    addListeners();
 
    //getCredenciales();
- 
-
+   iniNevada(100,80);
 };
 
 
@@ -185,3 +186,74 @@ function getCredenciales(){
     //Handle sign-in the way you did before.
     };
 }
+
+
+
+
+/*** NIEVE *** */
+
+class oCopo{
+  constructor(tam, id){
+     this.x = 0;
+     this.y = 0;
+     this.size = tam;
+     this.nombre = id
+     this.obj = document.createElement("div");
+     this.obj.setAttribute('id',id);
+     this.obj.setAttribute('name','snow');
+     this.obj.innerText="*";
+     this.obj.style.position = "absolute";
+     this.obj.style.fontSize = tam+"px";
+     this.obj.style.color = "white";
+     document.body.appendChild(this.obj)
+}
+dibujar(x,y){
+     this.x = x;
+     this.y = y;
+     this.obj.style.top = this.y+"px";
+     this.obj.style.left = this.x+"px";
+     }
+}
+function iniCopos(num, anc, alto){
+   var copos = new Array(num);
+   var tam, x, y;
+   for (let i = 0; i<num; i++)
+     {
+     tam = Math.round(Math.random()*10)+ 8;
+     copos[i] = new oCopo(tam, "c"+i);
+     x = parseInt(Math.random()*anc);
+     y = parseInt(Math.random()*alto);
+     copos[i].dibujar(x,y);
+     }
+return copos;
+}
+function iniNevada(num, vel)
+{
+var ancho = document.body.offsetWidth-10;
+var alto = window.innerHeight-10;
+var losCopos = iniCopos(num, ancho, alto)
+nevar(losCopos, ancho,alto, vel);
+} 
+function nevar(copos, coposAncho, coposAlto, vel)
+{
+var x, y;
+for (let i = 0; i < copos.length; i++)
+    {
+    y = copos[i].y;
+    x = copos[i].x;
+    if (Math.random() > 0.5)
+        y += parseInt(Math.random()+1);
+    y += parseInt(Math.random()+2);
+    if (y >= (coposAlto - copos[i].size))
+        {
+            y = Math.round(Math.random()*10);
+            x  =parseInt(Math.random()*coposAncho-1); 
+        }
+        copos[i].dibujar(x,y); 
+    }
+    
+    timerNieve = setTimeout(nevar, vel, copos,  coposAncho, coposAlto, vel);
+
+}
+
+

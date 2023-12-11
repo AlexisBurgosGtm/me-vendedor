@@ -74,7 +74,8 @@ let apigen = {
                                 GlobalSistema = sucursal;
                                 GlobalObjetivoVenta = Number(rows.OBJETIVO);
                                 GlobalSelectedDiaUpdated = Number(f.getDate());
-                                                                
+                                                   
+                                
                                 switch (GlobalTipoUsuario.toString()) {
                                     case 'VENDEDOR':
                                         classNavegar.inicioVendedor();    

@@ -48,6 +48,8 @@ let classNavegar = {
         })
     },
     inicioVendedor : async ()=>{
+       
+                                
         let strFooter =    `<button class="btn btn-sm "  id="btnMenu2VendedorClientesMapa">
                                 <i class="fal fa-map"></i>
                                 Mapa
@@ -122,6 +124,7 @@ let classNavegar = {
         funciones.loadScript('../views/vendedor/clientes.js','root')
         .then(async()=>{
             GlobalSelectedForm='INICIO';
+          
             InicializarVista();
             window.history.pushState({"page":1}, "clientes", '/clientes');
         })
@@ -138,6 +141,7 @@ let classNavegar = {
         
             funciones.loadScript('./views/vendedor/facturacion.js','root')
             .then(()=>{
+                detener_nieve();
                 GlobalSelectedForm ='VENTAS';
                 iniciarVistaVentas(nit,nombre,direccion);
                 window.history.pushState({"page":2}, "facturacion", GlobalUrl + '/facturacion')

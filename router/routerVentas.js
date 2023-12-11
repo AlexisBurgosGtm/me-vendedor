@@ -1040,7 +1040,7 @@ router.post("/insertventa", async (req,res)=>{
                 DOC_PORINGUAT, DOC_INGUATEXENTO, DOC_TIPOTRANIVA, DOC_PORTIMBREPRE, DOC_TIMBREPRENSA,
                 ABONOSANTICIPO, SALDOANTICIPO, DOC_PRODEXENTO, PUNTOSGANADOS, PUNTOSUSADOS,
                 APL_ANTICIPO, COD_DEPARTA, FIRMAELECTRONICA, DOC_CODDOCRETENCION, DOC_SERIERETENCION,
-                DOC_NUMRETENCION, FIRMAISC, ISCENVIADO, LAT, LONG, CODSUCURSAL
+                DOC_NUMRETENCION, FIRMAISC, ISCENVIADO, LAT, LONG, CODSUCURSAL, JSONDOCPRODUCTOS
                 ) 
                 VALUES (
                 '${empnit}', ${anio}, ${mes}, '${coddoc}', '${correlativo}',
@@ -1070,7 +1070,7 @@ router.post("/insertventa", async (req,res)=>{
                 0, 'N', 'C', 0, 0,
                 0, 0, 0, 0, 0,
                 '', '', '', '', '',
-                '', '', 0, ${lat},${long},'${app}'
+                '', '', 0, ${lat},${long},'${app}','${jsondocproductos}'
                 );`
                    
                 qrycorrelativo =`   UPDATE ME_TIPODOCUMENTOS 

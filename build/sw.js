@@ -1,5 +1,5 @@
-const staticCacheName = 'pre-cache-v09-2023.21.1';
-const dynamicCacheName = 'runtime-cache-v09-2023.21.1';
+const staticCacheName = 'pre-cache-v12-2023.10.1';
+const dynamicCacheName = 'runtime-cache-v12-2023.10.1';
 
 console.log(staticCacheName);
 
@@ -48,6 +48,7 @@ const precacheAssets = [
     './libs/funciones.js',
     './libs/sweetalert.min.js',
     './libs/toastr.js',
+    './libs/parallax.min.js',
     './models/classTipoDocumentos.js',
     './models/classEmpleados.js',
     './vendor/jquery-easing/jquery.easing.js',

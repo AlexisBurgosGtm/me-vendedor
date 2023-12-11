@@ -1,5 +1,5 @@
 
-let versionapp = 'Versión 09.2023(21.2)';
+let versionapp = 'Última modif: 12.2023';
 let GlobalServerUrl = '';
 let GlobalUrlServicePedidos = '';
 
