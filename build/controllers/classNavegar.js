@@ -141,7 +141,10 @@ let classNavegar = {
         
             funciones.loadScript('./views/vendedor/facturacion.js','root')
             .then(()=>{
+               
+                //efecto nieve
                 detener_nieve();
+                
                 GlobalSelectedForm ='VENTAS';
                 iniciarVistaVentas(nit,nombre,direccion);
                 window.history.pushState({"page":2}, "facturacion", GlobalUrl + '/facturacion')
@@ -150,6 +153,10 @@ let classNavegar = {
     },
     vendedorCenso: async()=>{
         
+         //efecto nieve
+         detener_nieve();
+               
+
         funciones.loadScript('./views/vendedor/censo.js','root')
         .then(()=>{
             GlobalSelectedForm ='VENDEDORCENSO';
@@ -158,8 +165,14 @@ let classNavegar = {
       
     },
     ventasMapaClientes: async(historial)=>{
+        //efecto nieve
+        detener_nieve();
+
         funciones.loadScript('./views/vendedor/mapaclientes.js','root')
         .then(()=>{
+             
+            
+               
             GlobalSelectedForm ='VENDEDORMAPACLIENTES';
             iniciarVistaVendedorMapaClientes();
             if(historial=='SI'){
@@ -191,6 +204,9 @@ let classNavegar = {
         })             
     },
     logrovendedor: (historial)=>{
+        //efecto nieve
+        detener_nieve();
+        
         funciones.loadScript('../views/vendedor/logro.js','root')
             .then(()=>{
                 GlobalSelectedForm='LOGROVENDEDOR';
