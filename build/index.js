@@ -3,6 +3,8 @@
 let timerNieve;
 
 function detener_nieve(){
+  console.log('deteniendo nieve...');
+  
   clearTimeout(timerNieve);
   var ele = document.getElementsByName("snow");
   for(var i=ele.length-1;i>=0;i--)

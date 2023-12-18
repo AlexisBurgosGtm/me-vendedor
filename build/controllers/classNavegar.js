@@ -79,21 +79,29 @@ let classNavegar = {
                                                  
                     let btnMenu2VendedorClientes = document.getElementById('btnMenu2VendedorClientes');
                     btnMenu2VendedorClientes.addEventListener('click',()=>{
+                         //efecto nieve
+                        detener_nieve();
                         classNavegar.inicioVendedorListado();
                     });
 
                     let btnMenu2VendedorClientesMapa = document.getElementById('btnMenu2VendedorClientesMapa');
                     btnMenu2VendedorClientesMapa.addEventListener('click',()=>{
+                         //efecto nieve
+                        detener_nieve();
                         classNavegar.ventasMapaClientes();
                     });
              
                     let btnMenu2VendedorLogro = document.getElementById('btnMenu2VendedorLogro');
                     btnMenu2VendedorLogro.addEventListener('click',()=>{
+                         //efecto nieve
+                        detener_nieve();
                         classNavegar.logrovendedor();
                     });
                  
                     let btnMenu2Censo = document.getElementById('btnMenu2Censo');
                     btnMenu2Censo.addEventListener('click',()=>{
+                        //efecto nieve
+                        detener_nieve();
                         classNavegar.inicio_censo();
                     });
 
@@ -102,12 +110,8 @@ let classNavegar = {
                         $('#modalSync').modal('show');
                     });
 
-                    await classEmpleados.updateMyLocation();
-
-                    classNavegar.inicioVendedorListado();
-
-                    document.getElementById('btnPedidosPend').style="visibility:visible";
-
+                  
+                   
                     let btnMConfig = document.getElementById('btnMConfig');
                     btnMConfig.addEventListener('click',()=>{
                         if(GlobalSelectedForm=='LOGIN'){
@@ -117,12 +121,22 @@ let classNavegar = {
                         classNavegar.ConfigVendedor();
                     });
 
-                  
+                    await classEmpleados.updateMyLocation();
+
+                    btnMenu2VendedorClientes.click();
+                    //classNavegar.inicioVendedorListado();
+
+                    document.getElementById('btnPedidosPend').style="visibility:visible";
+
              
     },
     inicioVendedorListado :async ()=>{
         funciones.loadScript('../views/vendedor/clientes.js','root')
         .then(async()=>{
+
+            //efecto nieve
+            detener_nieve();
+
             GlobalSelectedForm='INICIO';
           
             InicializarVista();
@@ -132,6 +146,9 @@ let classNavegar = {
     inicio_censo :async ()=>{
         funciones.loadScript('../views/vendedor/censo.js','root')
         .then(async()=>{
+            
+           
+
             GlobalSelectedForm='INICIO';
             InicializarVista();
             window.history.pushState({"page":5}, "censo", '/censo');

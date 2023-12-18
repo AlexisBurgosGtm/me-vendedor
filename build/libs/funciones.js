@@ -1,4 +1,18 @@
 let funciones = {
+    phone_call: (telefono)=>{
+      
+      let llamar = telefono.replace(" ","");
+      llamar = llamar.replace("-","");
+      llamar = llamar.replace("/","");
+      llamar = llamar.replace("*","");
+      llamar = llamar.replace("$","");
+      llamar = llamar.replace("&","");
+      llamar = llamar.replace("'","");
+      llamar = llamar.replace('"',"");
+
+      window.location.href = 'tel:' + llamar;
+      
+    },
     beep(duration,type,finishedCallback){
   
       

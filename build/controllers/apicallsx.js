@@ -208,7 +208,183 @@ let apigen = {
                                     
                                     break;
                             };
+                            let btnCallCliente = ''; 
+                            if(rows.TELEFONO=='SN'){
+                                btnCallCliente=''
+                            }else{
+                                btnCallCliente = `<button class="btn btn-circle btn-secondary btn-md" onclick="funciones.phone_call('${rows.TELEFONO}')"><i class="fal fa-phone"></i></button>`
+                            }
+                            strdataVisitados = strdataVisitados + `
+                        <tr class='${stClassClie} card card-rounded p-2 col-12'>
+                            <td>${rows.NEGOCIO} // ${rows.NOMCLIE}
+                                <br>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <small>Cod: ${rows.CODIGO} - St:${stNomStatus}</small>    
+                                    </div>
+                                    <div class="col-4">
+                                        
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-danger btn-lg btn-circle hand shadow" onclick="getMenuCliente2('${rows.CODIGO}','${rows.NOMCLIE}','${rows.DIRCLIE}','${rows.TELEFONO}','${rows.LAT}','${rows.LONG}','${rows.NIT}');">
+                                            <i class="fal fa-cog"></i>
+                                        </button>
+                                        
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-warning btn-lg btn-circle hand shadow" onclick="getEditCliente('${rows.CODIGO}','${rows.NOMCLIE}','${rows.DIRCLIE}','${rows.REFERENCIA}','${rows.TELEFONO}','${rows.LAT}','${rows.LONG}','${rows.NIT}','${rows.TIPONEGOCIO}','${rows.NEGOCIO}');">
+                                            <i class="fal fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <small>${rows.DIRCLIE}, <b>${rows.DESMUNI}</b></small>
+                                <br>
+                                <small class="text-info">Ref:${rows.REFERENCIA}</small>
 
+                                <div class="row">
+                                    <div class="col-2">
+                                        ${btnCallCliente}
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-success btn-md btn-circle hand shadow" onclick="funciones.gotoGoogleMaps('${rows.LAT}','${rows.LONG}');">
+                                            <i class="fal fa-map-marker"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-warning btn-md btn-circle hand shadow" onclick="getHistorialCliente('${rows.CODIGO}','${rows.NIT}','${rows.NOMCLIE}');">
+                                            <i class="fal fa-book"></i>Historial
+                                        </button>
+                                    </div>
+                                    <div class="col-5">
+                                        <button class="btn btn-info btn-sm hand shadow" onclick="getMenuCliente('${rows.CODIGO}','${rows.NOMCLIE}','${rows.DIRCLIE}','${rows.TELEFONO}','${rows.LAT}','${rows.LONG}','${rows.NIT}');">
+                                            <i class="fal fa-shopping-cart"></i>Vender
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </td>
+                        
+                        </tr>` 
+
+                        }else{
+                            let btnCallCliente = ''; 
+                            if(rows.TELEFONO=='SN'){
+                                btnCallCliente=''
+                            }else{
+                                btnCallCliente = `<button class="btn btn-circle btn-secondary btn-md" onclick="funciones.phone_call('${rows.TELEFONO}')"><i class="fal fa-phone"></i></button>`
+                            }
+                            strdata = strdata + `
+                                <tr class='card col-12 border-secondary card-rounded p-2 shadow col-12'>
+                                    <td>${rows.NEGOCIO} // ${rows.NOMCLIE}
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <small>Cod: ${rows.CODIGO} - St:${stNomStatus}</small>    
+                                            </div>
+                                            <div class="col-4">
+                                               
+                                            </div>
+                                            <div class="col-2">
+                                                <button class="btn btn-danger btn-lg btn-circle hand shadow" onclick="getMenuCliente2('${rows.CODIGO}','${rows.NOMCLIE}','${rows.DIRCLIE}','${rows.TELEFONO}','${rows.LAT}','${rows.LONG}','${rows.NIT}');">
+                                                    <i class="fal fa-cog"></i>
+                                                </button>
+                                                
+                                            </div>
+                                            <div class="col-2">
+                                                <button class="btn btn-warning btn-lg btn-circle hand shadow" onclick="getEditCliente('${rows.CODIGO}','${rows.NOMCLIE}','${rows.DIRCLIE}','${rows.REFERENCIA}','${rows.TELEFONO}','${rows.LAT}','${rows.LONG}','${rows.NIT}','${rows.TIPONEGOCIO}','${rows.NEGOCIO}');">
+                                                    <i class="fal fa-edit"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <small>${rows.DIRCLIE}, <b>${rows.DESMUNI}</b></small>
+                                        
+                                        <br>
+                                        <small class="text-info">Ref:${rows.REFERENCIA}</small>
+                                        <div class="row">
+
+                                            <div class="col-2">
+                                                ${btnCallCliente}
+                                            </div>
+                                            
+                                            <div class="col-2">
+                                                <button class="btn btn-primary btn-md btn-circle hand shadow" onclick="funciones.gotoGoogleMaps('${rows.LAT}','${rows.LONG}');">
+                                                    <i class="fal fa-map-marker"></i>
+                                                </button>
+                                            </div>  
+                                            <div class="col-2">
+                                                <button class="btn btn-warning  btn-md btn-circle hand shadow" onclick="getHistorialCliente('${rows.CODIGO}','${rows.NIT}','${rows.NOMCLIE}');">
+                                                    <i class="fal fa-book"></i>
+                                                </button>   
+                                            </div>
+                                        
+                                            <div class="col-5">
+                                                <button class="btn btn-info  btn-sm hand shadow" onclick="getMenuCliente('${rows.CODIGO}','${rows.NOMCLIE}','${rows.DIRCLIE}','${rows.TELEFONO}','${rows.LAT}','${rows.LONG}','${rows.NIT}');">
+                                                    <i class="fal fa-shopping-cart"></i>Vender
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                `
+                        }
+                        
+                        
+                })
+                container.innerHTML = strdata;
+                containerVisitados.innerHTML = strdataVisitados;
+
+            }, (error) => {
+                funciones.AvisoError('Error en la solicitud');
+                strdata = '';
+                containerVisitados.innerHTML = 'No se pudo cargar la lista';
+                container.innerHTML = 'No se pudo cargar la lista';
+            });
+            
+            
+        },
+        BACKUP_clientesVendedor: async(sucursal,codven,dia,idContenedor,idContenedorVisitados)=>{
+        
+            let container = document.getElementById(idContenedor);
+            container.innerHTML = GlobalLoader;
+
+            let containerVisitados = document.getElementById(idContenedorVisitados);
+            
+            let strdata = ''; let strdataVisitados = '';
+
+            selectCliente(dia)
+            .then((response) => {
+                const data = response;
+                
+                data.map((rows)=>{
+                        let f = rows.LASTSALE.toString().replace('T00:00:00.000Z','');
+                        let stClassClie = ''; let stNomStatus='';
+                        if(f==funciones.getFecha()){
+                            
+                            switch (rows.STVISITA) {
+                                case 'VENTA':
+                                    stClassClie='bg-success text-white card-rounded border-secondary';
+                                    stNomStatus= 'VENDIDO';
+                                    break;
+                                case 'CERRADO':
+                                    stClassClie='bg-warning card-rounded border-secondary';
+                                    stNomStatus= 'CERRADO';        
+                                    break;
+                                case 'NODINERO':
+                                    stClassClie='bg-secondary text-white card-rounded border-secondary';
+                                    stNomStatus= 'SIN DINERO';
+                                    break;
+                            
+                                default:
+                                    
+                                    break;
+                            };
+                            let btnCallCliente = ''; 
+                            if(rows.TELEFONO=='SN'){
+                                btnCallCliente=''
+                            }else{
+                                btnCallCliente = `<button class="btn btn-circle btn-secondary btn-md" onclick="funciones.phone_call('${rows.TELEFONO}')"><i class="fal fa-phone"></i></button>`
+                            }
                             strdataVisitados = strdataVisitados + `
                         <tr class='${stClassClie}'>
                             <td>${rows.NEGOCIO} // ${rows.NOMCLIE}
@@ -218,7 +394,7 @@ let apigen = {
                                         <small>Cod: ${rows.CODIGO} - St:${stNomStatus}</small>    
                                     </div>
                                     <div class="col-4">
-                                        <small>Tel:${rows.TELEFONO}</small>
+                                        ${btnCallCliente}
                                     </div>
                                     <div class="col-2">
                                         <button class="btn btn-danger btn-lg btn-circle hand shadow" onclick="getMenuCliente2('${rows.CODIGO}','${rows.NOMCLIE}','${rows.DIRCLIE}','${rows.TELEFONO}','${rows.LAT}','${rows.LONG}','${rows.NIT}');">
@@ -260,6 +436,12 @@ let apigen = {
                         </tr>` 
 
                         }else{
+                            let btnCallCliente = ''; 
+                            if(rows.TELEFONO=='SN'){
+                                btnCallCliente=''
+                            }else{
+                                btnCallCliente = `<button class="btn btn-circle btn-secondary btn-md" onclick="funciones.phone_call('${rows.TELEFONO}')"><i class="fal fa-phone"></i></button>`
+                            }
                             strdata = strdata + `
                                 <tr class='col-12 border-bottom border-info'>
                                     <td>${rows.NEGOCIO} // ${rows.NOMCLIE}
@@ -269,7 +451,7 @@ let apigen = {
                                                 <small>Cod: ${rows.CODIGO} - St:${stNomStatus}</small>    
                                             </div>
                                             <div class="col-4">
-                                                <small>Tel:${rows.TELEFONO}</small>
+                                                ${btnCallCliente}
                                             </div>
                                             <div class="col-2">
                                                 <button class="btn btn-danger btn-lg btn-circle hand shadow" onclick="getMenuCliente2('${rows.CODIGO}','${rows.NOMCLIE}','${rows.DIRCLIE}','${rows.TELEFONO}','${rows.LAT}','${rows.LONG}','${rows.NIT}');">
@@ -386,9 +568,15 @@ let apigen = {
             .then((response) => {
                 const data = response.data.recordset;
                 
-                data.map((rows)=>{                    
+                data.map((rows)=>{
+                    let btnCallCliente = ''; 
+                    if(rows.TELEFONO=='SN'){
+                        btnCallCliente=''
+                    }else{
+                        btnCallCliente = `<button class="btn btn-circle btn-secondary btn-md" onclick="funciones.phone_call('${rows.TELEFONO}')"><i class="fal fa-phone"></i></button>`
+                    }                    
                             strdata = strdata + `
-                        <tr class=''>
+                        <tr class='card card-rounded border-secondary shadow p-2'>
                             <td>${rows.NEGOCIO} // ${rows.NOMCLIE}
                                 <br>
                                 <div class="row">
@@ -396,7 +584,86 @@ let apigen = {
                                         <small>Cod: ${rows.CODIGO}</small>    
                                     </div>
                                     <div class="col-6">
-                                        <small>Tel: ${rows.TELEFONO}</small>    
+                                       
+                                    </div>
+                                </div>
+                                <small>${rows.DIRCLIE}, ${rows.DESMUNI}<b></b></small>
+                                <br>
+                                <small class="text-info">Ref:${rows.REFERENCIA}</small>
+                                
+                                <div class="row">
+                                    <div class="col-2">
+                                         ${btnCallCliente}   
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-outline-primary btn-md btn-circle hand shadow" onclick="funciones.gotoGoogleMaps('${rows.LAT}','${rows.LONG}');">
+                                            <i class="fal fa-map-marker"></i>
+                                        </button>
+                                    </div>
+                                                                            
+                                    <div class="col-2">
+                                        <button class="btn btn-outline-warning btn-md btn-circle hand shadow" onclick="getHistorialCliente('${rows.CODIGO}','${rows.NIT}','${rows.NOMCLIE}');">
+                                            <i class="fal fa-book"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="col-5">
+                                        <button class="btn btn-info btn-sm shadow" onclick="getMenuCliente('${rows.CODIGO}','${rows.NOMCLIE}','${rows.DIRCLIE}','${rows.TELEFONO}','${rows.LAT}','${rows.LONG}','${rows.NIT}');">
+                                            <i class="fal fa-shopping-cart"></i>Vender
+                                        </button>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </td>
+                        </tr>`    
+                        
+                        
+                        
+                })
+                container.innerHTML = strdata;
+                
+
+            }, (error) => {
+                funciones.AvisoError('Error en la solicitud');
+                strdata = '';
+                container.innerHTML = 'No se pudo cargar la lista';
+            });
+            
+            
+        },
+        BACKUP_clientesAjenosVendedor: async(sucursal,filtro,idContenedor)=>{
+        
+            let container = document.getElementById(idContenedor);
+            container.innerHTML = GlobalLoader;
+                    
+            let strdata = ''; 
+
+            axios.post('/clientes/listaajenosvendedor', {
+                app:GlobalSistema,
+                sucursal: sucursal,
+                filtro: filtro
+            })
+            .then((response) => {
+                const data = response.data.recordset;
+                
+                data.map((rows)=>{
+                    let btnCallCliente = ''; 
+                    if(rows.TELEFONO=='SN'){
+                        btnCallCliente=''
+                    }else{
+                        btnCallCliente = `<button class="btn btn-circle btn-secondary btn-md" onclick="funciones.phone_call('${rows.TELEFONO}')"><i class="fal fa-phone"></i></button>`
+                    }                    
+                            strdata = strdata + `
+                        <tr class='card card-rounded border-secondary shadow p-2'>
+                            <td>${rows.NEGOCIO} // ${rows.NOMCLIE}
+                                <br>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <small>Cod: ${rows.CODIGO}</small>    
+                                    </div>
+                                    <div class="col-6">
+                                        ${btnCallCliente}   
                                     </div>
                                 </div>
                                 <small>${rows.DIRCLIE}, ${rows.DESMUNI}<b></b></small>

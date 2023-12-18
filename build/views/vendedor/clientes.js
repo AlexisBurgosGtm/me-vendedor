@@ -176,7 +176,7 @@ function getView(){
                     <input type="text" id="txtFiltrarCliente" class="form-control border-primary" placeholder="Buscar en la lista...">
                
 
-                <table class="table table-responsive table-hover table-bordered col-12 p-0" id="tblLista">
+                <table class="table table-responsive col-12 p-0" id="tblLista">
                     <thead class="bg-secondary text-white">
                         <tr>
                             <td class="negrita">Cliente <small class="text-secondary">---------</small>Dirección</td>
@@ -196,9 +196,9 @@ function getView(){
         tab_visitados: ()=>{
             return `
             <div class="table-responsive">
-                <table class="table table-responsive table-striped table-hover table-bordered" id="tblLista">
-                    <thead class="bg-warning">
-                        <tr>
+                <table class="table table-responsive" id="tblLista">
+                <thead class="bg-warning">
+                    <tr>
                             <td class="negrita">Cliente / Dirección</td>
                         </tr>
                     </thead>
@@ -227,7 +227,7 @@ function getView(){
             </div>
 
             <div class="table-responsive">
-                <table class="table table-responsive table-striped table-hover table-bordered" id="">
+                <table class="table table-responsive col-12" id="">
                     <thead class="bg-trans-gradient text-white">
                         <tr>
                             <td class="negrita">Cliente / Dirección</td>
@@ -1098,6 +1098,9 @@ async function addListeners(){
     })
     .catch(()=>{SelectedCodUpdate='NOCODE'});
     
+
+    //efecto nieve
+    detener_nieve();
     
 };
 

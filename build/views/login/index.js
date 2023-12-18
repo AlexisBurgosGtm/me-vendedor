@@ -15,7 +15,7 @@ function getView(){
                     <div class="card-header text-center bg-white">
                         <div class="row">
                             <div class="col-4">
-
+                                <img src="./anuncio.png" width="95" height="85">
                             </div>
                             <div id="parallax_logo" class="col-4">
                                 <img data-depth="1.0" src="./favicon.png" width="65" height="65">                            
