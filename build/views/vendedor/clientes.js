@@ -1099,8 +1099,7 @@ async function addListeners(){
     .catch(()=>{SelectedCodUpdate='NOCODE'});
     
 
-    //efecto nieve
-    detener_nieve();
+    
     
 };
 

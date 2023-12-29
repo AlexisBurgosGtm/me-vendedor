@@ -1,16 +1,12 @@
 ﻿//var socket = io();
 
-let timerNieve;
+let timerEfecto;
 
-function detener_nieve(){
-  console.log('deteniendo nieve...');
+function detener_efecto(){
+
+  clearTimeout(timerEfecto);
+  document.getElementById('bod').style="visibility:hidden";
   
-  clearTimeout(timerNieve);
-  var ele = document.getElementsByName("snow");
-  for(var i=ele.length-1;i>=0;i--)
-  {
-      ele[i].parentNode.removeChild(ele[i]);
-  }
 }
 
 //inicializa la instalacion de la app
@@ -19,15 +15,16 @@ funciones.instalationHandlers('btnInstalarApp');
 let btnCerrarModalWait = document.getElementById('btnCerrarModalWait');
 
 function InicializarServiceWorkerNotif(){
+
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () =>
    navigator.serviceWorker.register('./sw.js')
     .then(registration => console.log('Service Worker registered'))
     .catch(err => 'SW registration failed'));
   };
-
  
   requestPermission();
+
 }
 
 if ('Notification' in window) {};

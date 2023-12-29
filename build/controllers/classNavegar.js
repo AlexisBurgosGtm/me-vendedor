@@ -80,28 +80,28 @@ let classNavegar = {
                     let btnMenu2VendedorClientes = document.getElementById('btnMenu2VendedorClientes');
                     btnMenu2VendedorClientes.addEventListener('click',()=>{
                          //efecto nieve
-                        detener_nieve();
+                        detener_efecto();
                         classNavegar.inicioVendedorListado();
                     });
 
                     let btnMenu2VendedorClientesMapa = document.getElementById('btnMenu2VendedorClientesMapa');
                     btnMenu2VendedorClientesMapa.addEventListener('click',()=>{
                          //efecto nieve
-                        detener_nieve();
+                        detener_efecto();
                         classNavegar.ventasMapaClientes();
                     });
              
                     let btnMenu2VendedorLogro = document.getElementById('btnMenu2VendedorLogro');
                     btnMenu2VendedorLogro.addEventListener('click',()=>{
                          //efecto nieve
-                        detener_nieve();
+                        detener_efecto();
                         classNavegar.logrovendedor();
                     });
                  
                     let btnMenu2Censo = document.getElementById('btnMenu2Censo');
                     btnMenu2Censo.addEventListener('click',()=>{
                         //efecto nieve
-                        detener_nieve();
+                        detener_efecto();
                         classNavegar.inicio_censo();
                     });
 
@@ -135,7 +135,7 @@ let classNavegar = {
         .then(async()=>{
 
             //efecto nieve
-            detener_nieve();
+            detener_efecto();
 
             GlobalSelectedForm='INICIO';
           
@@ -160,7 +160,7 @@ let classNavegar = {
             .then(()=>{
                
                 //efecto nieve
-                detener_nieve();
+                detener_efecto();
                 
                 GlobalSelectedForm ='VENTAS';
                 iniciarVistaVentas(nit,nombre,direccion);
@@ -171,7 +171,7 @@ let classNavegar = {
     vendedorCenso: async()=>{
         
          //efecto nieve
-         detener_nieve();
+         detener_efecto();
                
 
         funciones.loadScript('./views/vendedor/censo.js','root')
@@ -183,7 +183,7 @@ let classNavegar = {
     },
     ventasMapaClientes: async(historial)=>{
         //efecto nieve
-        detener_nieve();
+        detener_efecto();
 
         funciones.loadScript('./views/vendedor/mapaclientes.js','root')
         .then(()=>{
@@ -222,7 +222,7 @@ let classNavegar = {
     },
     logrovendedor: (historial)=>{
         //efecto nieve
-        detener_nieve();
+        detener_efecto();
         
         funciones.loadScript('../views/vendedor/logro.js','root')
             .then(()=>{

@@ -14,17 +14,11 @@ function getView(){
 
                     <div class="card-header text-center bg-white">
                         <div class="row">
-                            <div class="col-4">
-                                <img src="./anuncio.png" width="95" height="85">
-                            </div>
                             <div id="parallax_logo" class="col-4">
                                 <img data-depth="1.0" src="./favicon.png" width="65" height="65">                            
                             </div>
-                            <div class="col-4" align="right">
-                                <br>
-                                <button class="btn btn-outline-info btn-lg btn-circle shadow" onclick="funciones.shareAppWhatsapp();">
-                                        <i class="fal fa-paper-plane"></i>
-                                </button>
+                            <div class="col-8">
+                                <img src="./anuncio.png" width="115" height="105">
                             </div>    
                         </div>
                         
@@ -70,8 +64,12 @@ function getView(){
                             <div class="form-group" align="right">
                                 <small class="">Mercados Efectivos - ${versionapp}</small>
                                 <br>
+                                <button class="btn btn-outline-info btn-sm shadow" onclick="funciones.shareAppWhatsapp();">
+                                    <i class="fal fa-share"></i> Enviar a un compañero
+                                </button>
                                 <small>
-                                    <a href="https://apigen.whatsapp.com/send?phone=50257255092&text=Ayudame%20con%20la%20app%20de%20Mercados%20Efectivos...%20">
+                               
+                                        <a href="https://apigen.whatsapp.com/send?phone=50257255092&text=Ayudame%20con%20la%20app%20de%20Mercados%20Efectivos...%20">
                                         por Alexis Burgos
                                     </a>
                                 </small>
@@ -86,6 +84,7 @@ function getView(){
             </div>
 
             <div class="col-md-4 col-sm-12 col-lg-4 col-lx-4"></div>
+            <div id="root_efecto"></div>
 
                          
 
@@ -155,7 +154,18 @@ function InicializarVista(){
    addListeners();
 
    //getCredenciales();
-   iniNevada(100,80);
+
+   iniciar_efecto();
+   
+};
+
+function iniciar_efecto(){
+
+    funciones.loadScript('./libs/fartificiales.js','root_efecto')
+    .then(()=>{
+          
+    })
+
 };
 
 
@@ -189,71 +199,5 @@ function getCredenciales(){
 
 
 
-
-/*** NIEVE *** */
-
-class oCopo{
-  constructor(tam, id){
-     this.x = 0;
-     this.y = 0;
-     this.size = tam;
-     this.nombre = id
-     this.obj = document.createElement("div");
-     this.obj.setAttribute('id',id);
-     this.obj.setAttribute('name','snow');
-     this.obj.innerText="*";
-     this.obj.style.position = "absolute";
-     this.obj.style.fontSize = tam+"px";
-     this.obj.style.color = "white";
-     document.body.appendChild(this.obj)
-}
-dibujar(x,y){
-     this.x = x;
-     this.y = y;
-     this.obj.style.top = this.y+"px";
-     this.obj.style.left = this.x+"px";
-     }
-}
-function iniCopos(num, anc, alto){
-   var copos = new Array(num);
-   var tam, x, y;
-   for (let i = 0; i<num; i++)
-     {
-     tam = Math.round(Math.random()*10)+ 8;
-     copos[i] = new oCopo(tam, "c"+i);
-     x = parseInt(Math.random()*anc);
-     y = parseInt(Math.random()*alto);
-     copos[i].dibujar(x,y);
-     }
-return copos;
-}
-function iniNevada(num, vel)
-{
-var ancho = document.body.offsetWidth-10;
-var alto = window.innerHeight-10;
-var losCopos = iniCopos(num, ancho, alto)
-nevar(losCopos, ancho,alto, vel);
-} 
-function nevar(copos, coposAncho, coposAlto, vel)
-{
-var x, y;
-for (let i = 0; i < copos.length; i++)
-    {
-    y = copos[i].y;
-    x = copos[i].x;
-    if (Math.random() > 0.5)
-        y += parseInt(Math.random()+1);
-    y += parseInt(Math.random()+2);
-    if (y >= (coposAlto - copos[i].size))
-        {
-            y = Math.round(Math.random()*10);
-            x  =parseInt(Math.random()*coposAncho-1); 
-        }
-        copos[i].dibujar(x,y); 
-    }
-    
-    timerNieve = setTimeout(nevar, vel, copos,  coposAncho, coposAlto, vel);
-
-}
 
 

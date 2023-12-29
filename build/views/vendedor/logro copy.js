@@ -1,8 +1,8 @@
 function getView(){
     let view ={
-        BACKUP_encabezado : ()=>{
+        encabezado : ()=>{
             return `
-            <div class="row bg-secondary text-white">
+            <div class="row bg-trans-gradient text-white">
                 <div class="col-12">
                     <h5>Seleccione un Mes y un Reporte</h5>
                 </div>               
@@ -49,45 +49,11 @@ function getView(){
                     </div>
                 </div>
             </div>
-
-            <hr><hr>
-            `
-        },
-        encabezado : ()=>{
-            return `
-            <div class="row">    
-                <div class="form-group col-12">
-                    <label class="negrita">Seleccione un Reporte</label>
-                    <select class="form-control border-danger negrita text-danger" id="cmbReporte">
-                        <option value="1">REPORTE PEDIDOS DEL DIA (DIA)</option>
-                        <option value="2">REPORTE MARCAS VENDIDAS (DIA)</option>
-                        <option value="3">REPORTE PRODUCTOS VENDIDOS (DIA)</option>
-                        <option value="4">REPORTE VENTAS POR FECHA (MES)</option>
-                        <option value="5">REPORTE PRODUCTOS DEL MES (MES)</option>
-                        <option value="6">MARCAS DEL MES (MES)</option>
-                        <option value="7">VENTAS NETAS - OBJETIVO (MES)</option>
-                    </select>
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-12">
-                        <div class="form-group">
-                            <label class="negrita">Mes - Año - Fecha</label>
-                            <div class="input-group">
-                                <select class="form-control negrita" id="cmbMes"></select>
-                                <select class="form-control negrita" id="cmbAnio"></select>
-                                <input type="date" class="form-control" id="txtFecha">
-                            </div>
-                        </div>
-                </div>
-            </div>
-
-            <hr><hr><hr>
             `
         },
         listado: ()=>{
             return `
+                <hr class="solid">
             <div class="" id="containerTotal"></div>
                 <br>
             <div class="row card">
@@ -95,9 +61,6 @@ function getView(){
                   
                 </div>
             </div>
-            <button class="btn btn-secondary btn-circle btn-xl hand shadow btn-bottom-r" id="btnFiltro">
-                <i class="fal fa-filter"></i>
-            </button>
             `
         },
         modalDetallePedido:()=>{
@@ -231,31 +194,10 @@ function getView(){
                 </div>
             </div>
             `
-        },
-        modal_filtro:()=>{
-            return `
-            <div class="modal fade modal-with-scroll" id="modal_filtro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog  modal-dialog-bottom modal-xl" role="document">
-                    <div class="modal-content">
-
-                        <div class="modal-header bg-secondary text-white">
-                            <label class="modal-title h5">Indique la información a Mostrar</label>
-                        </div>
-
-                        <div class="modal-body">
-                            ${view.encabezado()}
-                            
-                            
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-            `
         }
     };
 
-    root.innerHTML =  view.listado() + view.modal_filtro();
+    root.innerHTML = view.encabezado() + view.listado();
     rootMenuLateral.innerHTML = view.modalDetallePedido() + view.modalCantidad();
     lbMenuTitulo.innerText = "Detalle del Pedido";
 
@@ -293,14 +235,7 @@ function addListeners(){
     });
 
 
-    rpt_pedidosVendedor(GlobalCodSucursal,GlobalCodUsuario,funciones.devuelveFecha('txtFecha'),'tblReport','containerTotal');
-
-   
-    let btnFiltro = document.getElementById('btnFiltro');
-    btnFiltro.addEventListener('click',()=>{
-        $("#modal_filtro").modal('show');
-    })
-
+    apigen.pedidosVendedor(GlobalCodSucursal,GlobalCodUsuario,funciones.devuelveFecha('txtFecha'),'tblReport','containerTotal');
 
    
 
@@ -315,7 +250,7 @@ function getCargarGrid(){
     switch (cmbReporte.value.toString()) {
         case '1':
             //PEDIDOS POR FECHA
-            rpt_pedidosVendedor(GlobalCodSucursal,GlobalCodUsuario,funciones.devuelveFecha('txtFecha'),'tblReport','containerTotal');
+            apigen.pedidosVendedor(GlobalCodSucursal,GlobalCodUsuario,funciones.devuelveFecha('txtFecha'),'tblReport','containerTotal');
             break;
     
         case '2':
@@ -659,114 +594,3 @@ function fcnDeletePedidoCargado(coddoc,correlativo){
     })
     
 };
-
-
-
-// reportes
-
-function rpt_pedidosVendedor(sucursal,codven,fecha,idContenedor,idLbTotal){
-
-    let container = document.getElementById(idContenedor);
-    container.innerHTML = GlobalLoader;
-    
-    let lbTotal = document.getElementById(idLbTotal);
-    lbTotal.innerText = '---';
-
-    
-    let strdata = '';
-    let totalpedidos = 0;
-    axios.post('/ventas/listapedidos', {
-        app:GlobalSistema,
-        sucursal: sucursal,
-        codven:codven,
-        fecha:fecha   
-    })
-    .then((response) => {
-        const data = response.data.recordset;
-        let total =0;
-        data.map((rows)=>{
-                total = total + Number(rows.IMPORTE);
-                totalpedidos = totalpedidos + 1;
-                strdata += `
-                <div class="card card-rounded col-12 shadow hand p-1">
-                    <div class="card-body">
-                        <div class="form-group">
-                            <b>${rows.NEGOCIO} // ${rows.NOMCLIE}</b>
-                            <br>
-                            <small class="text-secondary">${rows.DIRCLIE + ', ' + rows.DESMUNI}</small>
-                            <br>
-                            <small class="text-white bg-secondary">${rows.OBS}</small>
-                        </div>
-                        <div class="row">
-                            <small class="negrita text-secondary">${rows.CODDOC + '-' + rows.CORRELATIVO}</small>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <b class="h5 text-danger">${funciones.setMoneda(rows.IMPORTE,'Q')}</b>
-                            </div>
-                            <div class="col-2">
-                                <button class="btn btn-info btn-sm btn-circle"
-                                    onclick="getDetallePedido('${rows.FECHA.toString().replace('T00:00:00.000Z','')}','${rows.CODDOC}','${rows.CORRELATIVO}','${rows.CODCLIE}','${rows.NOMCLIE}','${rows.DIRCLIE}','${rows.ST}');">
-                                    <i class="fal fa-edit"></i>
-                                </button>    
-                            </div>
-                            <div class="col-2">
-                                <button class="btn btn-danger btn-sm btn-circle"
-                                    onclick="deletePedidoVendedor('${rows.FECHA.toString().replace('T00:00:00.000Z','')}','${rows.CODDOC}','${rows.CORRELATIVO}','${rows.ST}');">
-                                    <i class="fal fa-trash"></i>
-                                </button>    
-                            </div>
-                            <div class="col-2">
-                                <button class="btn btn-outline-success btn-sm btn-circle"
-                                    onclick="funciones.enviarPedidoWhatsapp2('${rows.FECHA.toString().replace('T00:00:00.000Z','')}','${rows.CODDOC}','${rows.CORRELATIVO}');">
-                                    w
-                                </button>    
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br>`
-        })
-        container.innerHTML = strdata;
-        //lbTotal.innerText = `${funciones.setMoneda(total,'Q ')} - Pedidos: ${totalpedidos} - Promedio:${funciones.setMoneda((Number(total)/Number(totalpedidos)),'Q')}`;
-        lbTotal.innerHTML = `
-                    <div class="card card-rounded border-secondary bg-secondary text-white col-12 p-2 shadow">
-                        <div class="card-body">
-                            <div class="row">
-                                
-                                <div class="col-3" id="parallax_logo">
-                                    <img data-depth="1.0" src="./favicon.png"  width="65" height="65">
-                                </div>
-                                <div class="col-9">
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <td><i class="fal fa-dollar-sign"></i> Total Vendido:</td>
-                                                <td></td>
-                                                <td class="negrita h2 text-warning">${funciones.setMoneda(total,'Q ')}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><i class="fal fa-edit"></i> Pedidos:</td>
-                                                <td></td>
-                                                <td class="negrita h2 text-warning">${totalpedidos}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    `;
-            var parallax_logo = document.getElementById('parallax_logo');
-            var parallaxInstance = new Parallax(parallax_logo);
-                   
-    }, (error) => {
-        funciones.AvisoError('Error en la solicitud');
-        strdata = '';
-        container.innerHTML = '';
-        lbTotal.innerHTML = '-- --';
-    });
-    
-}
