@@ -4,8 +4,8 @@ let timerEfecto;
 
 function detener_efecto(){
 
-  clearTimeout(timerEfecto);
-  document.getElementById('bod').style="visibility:hidden";
+  //clearTimeout(timerEfecto);
+  //document.getElementById('bod').style="visibility:hidden";
   
 }
 

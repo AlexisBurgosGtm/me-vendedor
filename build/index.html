@@ -359,15 +359,13 @@
         <div class="modal fade modal-with-scroll" id="ModalPendientes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-right" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <label class="modal-title text-info h3" id="">Pedidos Pendientes de Enviar</label>
-                        <small class="negrita text-danger">Para poder editar un pedido, primero debe enviarlo</small>
-                    </div>
                     
                     <div class="modal-body">
+                        <label class="modal-title text-info h5">Pedidos Pendientes de Enviar</label>
+                        <hr class="solid">
                         <div class="form-group">
-                            <label>Servicio para Enviar Pedidos</label>
-                            <select class="form-control" id="cmbTipoDb">
+                            <label class="negrita text-danger">Servicio para Enviar Pedidos</label>
+                            <select class="form-control border-danger text-danger" id="cmbTipoDb">
                                 <option value="PROPIO">SERVICIO PROPIO</option>
                                 <option value="RENDER">SERVICIO EMERGENCIA</option>
                             </select>
@@ -385,28 +383,19 @@
                                 </div>
                                 
                             </div>
-                            <!--
-                                <table class="table table-responsive table-hover table-striped table-bordered shadow">
-                                <thead class="bg-info text-white">
-                                    <td>Fecha</td>
-                                    <td>Cliente</td>
-                                    <td>Importe</td>
-                                    <td></td>
-                                    <td></td>
-                                </thead>
-                                <tbody id="tblPedidosPendientes"></tbody>
-                            </table>
-
-                             -->
+                     
                              <div class="table-responsive" id="tblPedidosPendientes">
 
                                 
                              </div>
 
                         </div>
-                        <button class="btn form-control shadow" data-dismiss="modal">
-                            Cerrar(x)
-                        </button>
+                        <div class="text-center">
+                            <button class="btn btn-xl btn-circle hand btn-danger shadow" data-dismiss="modal">
+                                X
+                            </button>
+                        </div>
+                        
                     </div>
 
                 

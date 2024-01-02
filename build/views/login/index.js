@@ -61,24 +61,26 @@ function getView(){
                                     Ingresar
                                 </button>
                             </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <button class="btn btn-outline-info btn-sm shadow" onclick="funciones.shareAppWhatsapp();">
+                                        <i class="fal fa-airplane"></i> Enviar a un compañero
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <small class="">Mercados Efectivos - ${versionapp}</small>
+                                </div>
+                            </div>
                             <div class="form-group" align="right">
-                                <small class="">Mercados Efectivos - ${versionapp}</small>
                                 <br>
-                                <button class="btn btn-outline-info btn-sm shadow" onclick="funciones.shareAppWhatsapp();">
-                                    <i class="fal fa-share"></i> Enviar a un compañero
-                                </button>
-                                <small>
-                               
-                                        <a href="https://apigen.whatsapp.com/send?phone=50257255092&text=Ayudame%20con%20la%20app%20de%20Mercados%20Efectivos...%20">
+                                <small>                             
+                                    <a href="https://apigen.whatsapp.com/send?phone=50257255092&text=Ayudame%20con%20la%20app%20de%20Mercados%20Efectivos...%20">
                                         por Alexis Burgos
                                     </a>
                                 </small>
                             </div>
                         </form>
                     </div>
-
-            
-    
 
                 </div>
             </div>
@@ -161,13 +163,35 @@ function InicializarVista(){
 
 function iniciar_efecto(){
 
-    funciones.loadScript('./libs/fartificiales.js','root_efecto')
+    funciones.loadScript('./efectos/confetti.browser.min.js','root_efecto')
     .then(()=>{
-          
+        efecto_fireworks();
     })
 
 };
 
+function efecto_fireworks(){
+    var duration = 15 * 1000;
+    var animationEnd = Date.now() + duration;
+    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+    
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+    
+    var interval = setInterval(function() {
+      var timeLeft = animationEnd - Date.now();
+    
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+    
+      var particleCount = 50 * (timeLeft / duration);
+      // since particles fall down, start a bit higher than random
+      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+    }, 250);
+};
 
 async function almacenarCredenciales(){
     const cred = new PasswordCredential({
@@ -195,7 +219,7 @@ function getCredenciales(){
     } else {
     //Handle sign-in the way you did before.
     };
-}
+};
 
 
 
