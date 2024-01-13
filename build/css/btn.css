@@ -1,4 +1,67 @@
 
+.draw {
+  overflow: hidden;
+  position: relative;
+}
+.draw::before, .draw::after {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  border: 2px solid transparent;
+  width: 0;
+  height: 0;
+}
+.draw::before {
+  top: 0;
+  left: 0;
+  border-top-color: #fa346f;
+  border-right-color: #fa346f;
+  animation: border 2s infinite;
+}
+.draw::after {
+  bottom: 0;
+  right: 0;
+  animation: border 2s 1s infinite, borderColor 2s 1s infinite;
+}
+
+@keyframes border {
+  0% {
+    width: 0;
+    height: 0;
+  }
+  25% {
+    width: 100%;
+    height: 0;
+  }
+  50% {
+    width: 100%;
+    height: 100%;
+  }
+  100% {
+    width: 100%;
+    height: 100%;
+  }
+}
+@keyframes borderColor {
+  0% {
+    border-bottom-color: #fa346f;
+    border-left-color: #fa346f;
+  }
+  50% {
+    border-bottom-color: #fa346f;
+    border-left-color: #fa346f;
+  }
+  51% {
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
+  100% {
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
+}
+
+/* BORDE ANIMADO */
 
 .footer-banner {
   background-color: transparent;

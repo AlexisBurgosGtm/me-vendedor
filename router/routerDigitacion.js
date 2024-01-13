@@ -96,6 +96,35 @@ router.post("/detallepedido", async(req,res)=>{
     
         
     let qry = '';
+    qry = `SELECT isnull(ME_Docproductos.CODPROD,'') as CODPROD, 
+            isnull(ME_Docproductos.DESCRIPCION,'') AS DESPROD, 
+            isnull(ME_Docproductos.CODMEDIDA,'') AS CODMEDIDA, 
+            isnull(ME_Docproductos.CANTIDAD,0) AS CANTIDAD, 
+            isnull(ME_Docproductos.PRECIO,0) AS PRECIO, 
+            isnull(ME_Docproductos.TOTALPRECIO,0) AS IMPORTE, 
+            isnull(ME_Docproductos.DOC_ITEM,0) AS DOC_ITEM, 
+            isnull(ME_Docproductos.TOTALCOSTO,0) AS TOTALCOSTO
+    FROM ME_Documentos LEFT OUTER JOIN
+            ME_Docproductos ON ME_Documentos.CODSUCURSAL = ME_Docproductos.CODSUCURSAL AND ME_Documentos.DOC_NUMERO = ME_Docproductos.DOC_NUMERO AND 
+            ME_Documentos.CODDOC = ME_Docproductos.CODDOC AND ME_Documentos.EMP_NIT = ME_Docproductos.EMP_NIT
+            WHERE  (ME_Documentos.CODSUCURSAL = '${sucursal}') 
+            AND (ME_Documentos.DOC_FECHA = '${fecha}') 
+            AND (ME_Documentos.CODDOC = '${coddoc}') 
+            AND (ME_Documentos.DOC_NUMERO = '${ncorrelativo}')`;
+
+    
+   
+
+    execute.Query(res,qry);
+});
+
+router.post("/BACKUP_detallepedido", async(req,res)=>{
+    const {sucursal,fecha,coddoc,correlativo}  = req.body;
+
+    let ncorrelativo = correlativo;
+    
+        
+    let qry = '';
     qry = `SELECT ME_Docproductos.CODPROD, ME_Docproductos.DESCRIPCION AS DESPROD, ME_Docproductos.CODMEDIDA, ME_Docproductos.CANTIDAD, ME_Docproductos.PRECIO, ME_Docproductos.TOTALPRECIO AS IMPORTE, ME_Docproductos.DOC_ITEM, ME_Docproductos.TOTALCOSTO
             FROM ME_Documentos LEFT OUTER JOIN
             ME_Docproductos ON ME_Documentos.CODSUCURSAL = ME_Docproductos.CODSUCURSAL AND ME_Documentos.DOC_NUMERO = ME_Docproductos.DOC_NUMERO AND 

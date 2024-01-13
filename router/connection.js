@@ -99,6 +99,38 @@ let execute = {
 		  sql.close();
 		}
 	},
+	QueryData : (sqlqry)=>{	
+		
+		return new Promise((resolve,reject)=>{
+
+			try {
+				const pool5 = new sql.ConnectionPool(config, err => {
+				  new sql.Request(pool5)
+				  .query(sqlqry, (err, result) => {
+					  if(err){
+						  console.log(err.message);
+						  reject(err.message);
+					  }else{
+						  resolve(result);
+					  }					
+				  })
+				  sql.close();  
+				})
+				pool5.on('error', err => {
+					console.log('error sql = ' + err);
+					reject(err);
+					sql.close();
+				})
+			  } catch (error) {
+				  	console.log(error);
+				  	reject(error);   
+					sql.close();
+			  }
+
+		})	
+
+		
+	},
 	command : (rsqlqry)=>{			
 		return new Promise((resolve,reject)=>{
 			try {

@@ -255,13 +255,7 @@ async function addListeners(){
                 break;
         }
 
-        /* 
-        if(cmbTipoLista.value == 'NOENVIADOS'){
-            classDb.SelectCenso(cmbDiaVisita.value,GlobalCodUsuario,'listadoContainer');
-        }else{
-            fcnCensoListado(GlobalCodSucursal, GlobalCodUsuario, cmbDiaVisita.value, 'listadoContainer');
-        }
-        */
+      
     })
 
     let cmbTipoNegocio = document.getElementById('cmbTipoNegocio')
@@ -581,13 +575,13 @@ function fcnGuardarCliente(){
             codclie:txtCodigo.value,
             tiponegocio:cmbTipoNegocio.value,
             nitclie:txtNit.value,
-            negocio: funciones.quitarCaracteres(txtNegocio.value,'"'," pulg",true),
-            nomclie: funciones.quitarCaracteres(txtNomcliente.value,'"'," pulg",true), 
-            dirclie: funciones.quitarCaracteres(txtDircliente.value,'"'," pulg",true), 
+            negocio: funciones.limpiarTexto(txtNegocio.value),
+            nomclie: funciones.limpiarTexto(txtNomcliente.value), 
+            dirclie: funciones.limpiarTexto(txtDircliente.value), 
             codmun:cmbMunicipio.value,
             coddepto:cmbDepartamento.value,
-            referencia: funciones.quitarCaracteres(txtReferencia.value,'"'," pulg",true), 
-            obs: funciones.quitarCaracteres(txtObs.value,'"'," pulg",true), 
+            referencia: funciones.limpiarTexto(txtReferencia.value), 
+            obs: funciones.limpiarTexto(txtObs.value), 
             telefono:txtTelefono.value,
             visita:cmbVisitaCliente.value,
             lat:txtLatitud.innerText,
@@ -636,13 +630,13 @@ function fcnEditarCliente(){
             CODVEN:Number(cmbVendedor.value),
             NITCLIE:txtNit.value,
             TIPONEGOCIO:cmbTipoNegocio.value,
-            NEGOCIO: funciones.quitarCaracteres(txtNegocio.value,'"'," pulg",true),
-            NOMCLIE: funciones.quitarCaracteres(txtNomcliente.value,'"'," pulg",true), 
-            DIRCLIE: funciones.quitarCaracteres(txtDircliente.value,'"'," pulg",true), 
+            NEGOCIO: funciones.limpiarTexto(txtNegocio.value),
+            NOMCLIE: funciones.limpiarTexto(txtNomcliente.value), 
+            DIRCLIE: funciones.limpiarTexto(txtDircliente.value), 
             CODMUNI:cmbMunicipio.value.toString(),
             CODDEPTO:cmbDepartamento.value.toString(),
-            REFERENCIA: funciones.quitarCaracteres(txtReferencia.value,'"'," pulg",true), 
-            OBS: funciones.quitarCaracteres(txtObs.value,'"'," pulg",true), 
+            REFERENCIA: funciones.limpiarTexto(txtReferencia.value), 
+            OBS: funciones.limpiarTexto(txtObs.value), 
             TELEFONO:txtTelefono.value.toString(),
             VISITA:cmbVisitaCliente.value,
             LAT: Number(txtLatitud.innerText),
@@ -690,13 +684,13 @@ function fcnEditarClienteOnline(){
             codclie:txtCodigo.value,
             nitclie:txtNit.value,
             tiponegocio:cmbTipoNegocio.value,
-            negocio: funciones.quitarCaracteres(txtNegocio.value,'"'," pulg",true),
-            nomclie: funciones.quitarCaracteres(txtNomcliente.value,'"'," pulg",true), 
-            dirclie: funciones.quitarCaracteres(txtDircliente.value,'"'," pulg",true), 
+            negocio: funciones.limpiarTexto(txtNegocio.value),
+            nomclie: funciones.limpiarTexto(txtNomcliente.value), 
+            dirclie: funciones.limpiarTexto(txtDircliente.value), 
             codmun:cmbMunicipio.value,
             coddepto:cmbDepartamento.value,
-            referencia: funciones.quitarCaracteres(txtReferencia.value,'"'," pulg",true), 
-            obs: funciones.quitarCaracteres(txtObs.value,'"'," pulg",true), 
+            referencia: funciones.limpiarTexto(txtReferencia.value), 
+            obs: funciones.limpiarTexto(txtObs.value), 
             telefono:txtTelefono.value,
             visita:cmbVisitaCliente.value,
             lat:txtLatitud.innerText,
@@ -1090,13 +1084,13 @@ function sendCliente(id,nit,tiponegocio,negocio,nombre,direccion,referencia,codm
                     codclie:0,
                     tiponegocio:tiponegocio.toString(),
                     nitclie:nit.toString(),
-                    negocio: funciones.quitarCaracteres(negocio,'"'," pulg",true),
-                    nomclie: funciones.quitarCaracteres(nombre,'"'," pulg",true), 
-                    dirclie: funciones.quitarCaracteres(direccion,'"'," pulg",true), 
+                    negocio: funciones.limpiarTexto(negocio),
+                    nomclie: funciones.limpiarTexto(nombre), 
+                    dirclie: funciones.limpiarTexto(direccion), 
                     codmun:codmun.toString(),
                     coddepto:coddepto.toString(),
-                    referencia: funciones.quitarCaracteres(referencia,'"'," pulg",true), 
-                    obs: funciones.quitarCaracteres(obs,'"'," pulg",true), 
+                    referencia: funciones.limpiarTexto(referencia), 
+                    obs: funciones.limpiarTexto(obs), 
                     telefono:telefono.toString(),
                     visita:visita.toString(),
                     lat:Number(latitud),

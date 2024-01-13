@@ -1,58 +1,5 @@
 function getView(){
     let view ={
-        BACKUP_encabezado : ()=>{
-            return `
-            <div class="row bg-secondary text-white">
-                <div class="col-12">
-                    <h5>Seleccione un Mes y un Reporte</h5>
-                </div>               
-            </div>
-
-            <div class="row">
-                <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
-                    <div class="row">
-
-                        <div class="col-6">
-                            <div class="form-group">
-                                <select class="form-control" id="cmbMes"></select>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <select class="form-control" id="cmbAnio"></select>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                    <div class="form-group">
-                        <label>Por Fecha</label>
-                        <input type="date" class="form-control" id="txtFecha">
-                    </div>
-                </div>
-                <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8">
-                    <div class="form-group">
-                        <label>Seleccione un Reporte</label>
-                        <select class="form-control border-danger negrita text-danger" id="cmbReporte">
-                            <option value="1">PEDIDOS DEL DIA (DIA)</option>
-                            <option value="2">MARCAS VENDIDAS (DIA)</option>
-                            <option value="3">PRODUCTOS VENDIDOS (DIA)</option>
-                            <option value="4">VENTAS POR FECHA (MES)</option>
-                            <option value="5">PRODUCTOS DEL MES (MES)</option>
-                            <option value="6">MARCAS DEL MES (MES)</option>
-                            <option value="7">VENTAS NETAS - OBJETIVO (MES)</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <hr><hr>
-            `
-        },
         encabezado : ()=>{
             return `
             <div class="row">    
@@ -104,9 +51,18 @@ function getView(){
             return `
             <div class="card">          
             <br>
+            <div class="row">
+                <div class="col-4">
+                    <label>Total Pedido:</label>
+                </div>
+                <div class="col-8">
+                    <h3 class="text-danger" id="lbTotalDetallePedido"></h3>
+                </div>
+            </div>
+
             <div class="table-responsive">
                 <table class="table table-responsive table-hover table-striped table-bordered">
-                    <thead class="bg-trans-gradient text-white">
+                    <thead class="bg-secondary text-white">
                         <tr>
                             <td>Producto</td>
                             <td>Medida</td>
@@ -120,18 +76,21 @@ function getView(){
                 </table>
             </div>
             <br>
-            <div class="">
-                <div class="col-1"></div>
-                <div class="col-5">
-                    <label>Total Pedido : </label>
-                    <h2 class="text-danger" id="lbTotalDetallePedido"></h2>
-                </div>
-            </div>
+           
             <div class="row">
-                <button class="btn btn-info btn-lg" id="btnEditarPedido">
-                    <i class="fal fa-edit"></i>
-                    Editar Pedido
-                </button>
+                <div class="col-6">
+                    <button class="btn btn-info" id="btnEditarPedido">
+                        <i class="fal fa-edit"></i>
+                        Editar Pedido
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-warning" id="btnCorregirPedido">
+                        <i class="fal fa-spinner"></i>
+                        Arreglar Pedido
+                    </button>
+                </div>
+                
             </div>
         </div>
         `
@@ -293,6 +252,35 @@ function addListeners(){
     });
 
 
+    let btnCorregirPedido = document.getElementById('btnCorregirPedido');
+    btnCorregirPedido.addEventListener('click',()=>{
+
+        funciones.Confirmacion('¿Está seguro que desea corregir problemas en el pedido? Úselo solo cuando su pedido no tenga productos')
+        .then((value)=>{
+            if(value==true){
+
+                btnCorregirPedido.innerHTML = '<i class="fal fa-spinner fa-spin"></i>';
+                btnCorregirPedido.disabled = true;
+
+                corregir_pedido(GlobalSelectedCoddoc,GlobalSelectedCorrelativo,GlobalSelectedFecha)
+                .then(()=>{
+                    funciones.Aviso('Pedido corregido con éxito');
+                    $("#modalMenu").modal('hide');
+
+                    btnCorregirPedido.innerHTML = '<i class="fal fa-spinner"></i>';
+                    btnCorregirPedido.disabled = false;
+                
+                })
+                .catch(()=>{
+                    funciones.AvisoError('No se pudo corregir. Talvez el pedido está correcto');
+                    btnCorregirPedido.innerHTML = '<i class="fal fa-spinner"></i>';
+                    btnCorregirPedido.disabled = false;
+                })
+
+            }
+        })
+    });
+
     rpt_pedidosVendedor(GlobalCodSucursal,GlobalCodUsuario,funciones.devuelveFecha('txtFecha'),'tblReport','containerTotal');
 
    
@@ -300,6 +288,7 @@ function addListeners(){
     btnFiltro.addEventListener('click',()=>{
         $("#modal_filtro").modal('show');
     })
+
 
 
    
@@ -357,6 +346,57 @@ function inicializarVistaLogro(){
     getView();
     addListeners();
 };
+
+function BACKUP_corregir_pedido(coddoc,correlativo,fecha){
+
+   return new Promise((resolve,reject)=>{
+
+        get_data_corregir_pedido(coddoc,correlativo,fecha)
+        .then((data)=>{
+
+        })
+        .catch(()=>{
+            reject();
+        })
+   })
+
+};
+
+function corregir_pedido(coddoc,correlativo,fecha){
+
+    let txtFecha = new Date(fecha);
+    let anio = txtFecha.getFullYear();
+    let mes = txtFecha.getUTCMonth()+1;
+
+    return new Promise((resolve,reject)=>{
+        axios.post('/ventas/corregir_detalle', {
+            sucursal:GlobalCodSucursal,
+            coddoc: coddoc,
+            correlativo: correlativo,
+            anio:anio,
+            mes:mes,
+            codbodega:GlobalCodBodega
+        })
+        .then((response) => {
+            if(response.data=='error'){
+                reject();
+            }else{
+                const data = response.data;
+                if(Number(data.rowsAffected[0])>0){
+                    resolve();             
+                }else{
+                    reject();
+                }
+            }
+        }, (error) => {
+            //funciones.AvisoError('Error en la solicitud');
+            reject();
+        });
+    })
+
+};
+
+
 
 function getRptDinero2(mes,anio){
     apigen.reporteDinero2(GlobalCodSucursal,GlobalCodUsuario,anio,mes,'tblReport','containerTotal');
@@ -685,10 +725,16 @@ function rpt_pedidosVendedor(sucursal,codven,fecha,idContenedor,idLbTotal){
         const data = response.data.recordset;
         let total =0;
         data.map((rows)=>{
+                let strClassAlerta = '';
+                if(funciones.setMoneda(rows.IMPORTE,'Q')==funciones.setMoneda(rows.TOTALPRODUCTOS,'Q')){
+                    strClassAlerta='';
+                }else{
+                    strClassAlerta='border-danger';
+                }
                 total = total + Number(rows.IMPORTE);
                 totalpedidos = totalpedidos + 1;
                 strdata += `
-                <div class="card card-rounded col-12 shadow hand p-1">
+                <div class="card card-rounded col-12 shadow hand p-1 ${strClassAlerta}">
                     <div class="card-body">
                         <div class="form-group">
                             <b>${rows.NEGOCIO} // ${rows.NOMCLIE}</b>
@@ -702,7 +748,9 @@ function rpt_pedidosVendedor(sucursal,codven,fecha,idContenedor,idLbTotal){
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <b class="h5 text-danger">${funciones.setMoneda(rows.IMPORTE,'Q')}</b>
+                                <b class="h5 text-danger">F:${funciones.setMoneda(rows.IMPORTE,'Q')}</b>
+                                <br>
+                                <b class="h5 text-secondary">P:${funciones.setMoneda(rows.TOTALPRODUCTOS,'Q')}</b>
                             </div>
                             <div class="col-2">
                                 <button class="btn btn-info btn-sm btn-circle"

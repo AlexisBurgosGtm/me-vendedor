@@ -17,8 +17,9 @@ function getView(){
                             <div id="parallax_logo" class="col-4">
                                 <img data-depth="1.0" src="./favicon.png" width="65" height="65">                            
                             </div>
-                            <div class="col-8">
-                                <img src="./anuncio.png" width="115" height="105">
+                            <div class="col-8 text-center">
+                                <h2 class="text-secondary negrita">Mercados</h2>
+                                <h2 class="text-secondary negrita">Efectivos</h2>
                             </div>    
                         </div>
                         
@@ -64,7 +65,7 @@ function getView(){
                             <div class="row">
                                 <div class="col-6">
                                     <button class="btn btn-outline-info btn-sm shadow" onclick="funciones.shareAppWhatsapp();">
-                                        <i class="fal fa-airplane"></i> Enviar a un compañero
+                                        <i class="fal fa-paper-plane"></i> Enviar a un compañero
                                     </button>
                                 </div>
                                 <div class="col-6">
@@ -162,6 +163,8 @@ function InicializarVista(){
 };
 
 function iniciar_efecto(){
+    
+    return;
 
     funciones.loadScript('./efectos/confetti.browser.min.js','root_efecto')
     .then(()=>{

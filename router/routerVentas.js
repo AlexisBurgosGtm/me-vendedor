@@ -609,6 +609,32 @@ router.post("/listapedidos", async(req,res)=>{
     const {sucursal,codven,fecha}  = req.body;
     
     let qry = '';
+    qry = `SELECT ME_Documentos.CODDOC, ME_Documentos.DOC_NUMERO AS CORRELATIVO, ME_Documentos.NITCLIE AS CODCLIE, ME_Clientes.NOMFAC AS NEGOCIO, ME_Documentos.DOC_NOMREF AS NOMCLIE, 
+                ME_Documentos.DOC_DIRENTREGA AS DIRCLIE, '' AS DESMUNI, 
+                ISNULL(ME_Documentos.DOC_TOTALVENTA, 0) AS IMPORTE, 
+                ME_Documentos.DOC_FECHA AS FECHA, ME_Documentos.LAT, ME_Documentos.LONG, 
+                ME_Documentos.DOC_OBS AS OBS, ME_Documentos.DOC_MATSOLI AS DIRENTREGA, ME_Documentos.DOC_ESTATUS AS ST, ME_Documentos.DOC_HORA AS HORA, 
+                SUM(isnull(ME_Docproductos.TOTALPRECIO,0)) AS TOTALPRODUCTOS
+            FROM            ME_Documentos LEFT OUTER JOIN
+                ME_Docproductos ON ME_Documentos.CODSUCURSAL = ME_Docproductos.CODSUCURSAL AND ME_Documentos.DOC_NUMERO = ME_Docproductos.DOC_NUMERO AND 
+                ME_Documentos.CODDOC = ME_Docproductos.CODDOC LEFT OUTER JOIN
+                ME_Clientes ON ME_Documentos.NITCLIE = ME_Clientes.NITCLIE AND ME_Documentos.CODSUCURSAL = ME_Clientes.CODSUCURSAL
+            WHERE        (ME_Documentos.CODSUCURSAL = '${sucursal}') 
+                AND (ME_Documentos.CODVEN = ${codven})
+            GROUP BY ME_Documentos.CODDOC, ME_Documentos.DOC_NUMERO, ME_Documentos.NITCLIE, ME_Clientes.NOMFAC, ME_Documentos.DOC_NOMREF, ME_Documentos.DOC_DIRENTREGA, 
+                ISNULL(ME_Documentos.DOC_TOTALVENTA, 0), ME_Documentos.DOC_FECHA, ME_Documentos.LAT, ME_Documentos.LONG, ME_Documentos.DOC_OBS, ME_Documentos.DOC_MATSOLI, ME_Documentos.DOC_ESTATUS, 
+                ME_Documentos.DOC_HORA
+            HAVING  (ME_Documentos.DOC_FECHA = '${fecha}') 
+                AND (ME_Documentos.DOC_ESTATUS <> 'A')
+            ORDER BY CORRELATIVO`
+
+    execute.Query(res,qry);
+});
+
+router.post("/BACKUP_listapedidos", async(req,res)=>{
+    const {sucursal,codven,fecha}  = req.body;
+    
+    let qry = '';
     qry = `SELECT  ME_Documentos.CODDOC, ME_Documentos.DOC_NUMERO AS CORRELATIVO, 
                     ME_Documentos.NITCLIE AS CODCLIE, 
                     ME_Clientes.NOMFAC AS NEGOCIO, 
@@ -633,37 +659,69 @@ router.post("/listapedidos", async(req,res)=>{
     execute.Query(res,qry);
 });
 
-router.post("/BACKUP2_listapedidos", async(req,res)=>{
-    const {sucursal,codven,fecha}  = req.body;
+router.post("/corregir_detalle", async(req,res)=>{
+
+    const {sucursal,coddoc,correlativo,anio,mes,codbodega}  = req.body;
     
     let qry = '';
-    qry = `SELECT        ME_Documentos.CODDOC, ME_Documentos.DOC_NUMERO AS CORRELATIVO, ME_Documentos.NITCLIE AS CODCLIE, 
-    ME_Clientes.NOMFAC AS NEGOCIO, ME_Documentos.DOC_NOMREF AS NOMCLIE, 
-                             ME_Documentos.DOC_DIRENTREGA AS DIRCLIE, '' AS DESMUNI, ISNULL(ME_Documentos.DOC_TOTALVENTA, 0) AS IMPORTE, ME_Documentos.DOC_FECHA AS FECHA, ME_Documentos.LAT, ME_Documentos.LONG, 
-                             ME_Documentos.DOC_OBS AS OBS, ME_Documentos.DOC_MATSOLI AS DIRENTREGA, ME_Documentos.DOC_ESTATUS AS ST
-    FROM            ME_Documentos LEFT OUTER JOIN
-                             ME_Clientes ON ME_Documentos.NITCLIE = ME_Clientes.NITCLIE AND ME_Documentos.CODSUCURSAL = ME_Clientes.CODSUCURSAL
-    WHERE        (ME_Documentos.CODSUCURSAL = '${sucursal}') 
-                AND (ME_Documentos.DOC_FECHA = '${fecha}') AND (ME_Documentos.CODVEN = ${codven}) 
-                AND (ME_Documentos.DOC_ESTATUS <> 'A')
-    ORDER BY ME_Documentos.DOC_NUMERO`
+    qry = `SELECT JSONDOCPRODUCTOS 
+            FROM ME_DOCUMENTOS 
+            WHERE CODSUCURSAL='${sucursal}' 
+            AND CODDOC='${coddoc}'
+            AND DOC_NUMERO='${correlativo}';
+            `
+
+    let insertQry = '';
+
+    execute.QueryData(qry)
+    .then((data)=>{
+        
+        let productos;
+        data.recordset.map((r)=>{
+            productos = JSON.parse(r.JSONDOCPRODUCTOS);
+        })
+
+     
+        productos.map((p)=>{
+            insertQry += `INSERT INTO ME_DOCPRODUCTOS 
+            (EMP_NIT,DOC_ANO,DOC_MES,CODDOC,DOC_NUMERO,
+            DOC_ITEM,CODPROD,CODMEDIDA,CANTIDAD,EQUIVALE,
+            CANTIDADINV,COSTO,PRECIO,TOTALCOSTO,TOTALPRECIO,
+            BODEGAENTRADA,BODEGASALIDA,SUBTOTAL,DESCUENTOPROD,PORDESCUPROD,
+            DESCUENTOFAC,PORDESCUFAC,TOTALDESCUENTO,DESCRIPCION,SUBTOTALPROD,
+            TIPOCAMBIO,PRODPRECIO,CANTIDADENVIADA,CODFAC,NUMFAC,
+            ITEMFAC,NOAFECTAINV, DOCPESO,COSTOINV,FLETE,TOTALPRECIOFIN,PRECIOFIN,TOTALCOSTOINV,CANTIDADBONI,CODOPR,NUMOPR,
+            ITEMOPR,CODINV,NUMINV,ITEMINV,TIPOCLIE,LISTA,PORIVA,VALORIVA,NOLOTE,VALORIMPU1,DESEMPAQUE,
+            SALDOINVANTCOM,NCUENTAMESA,CUENTACERRADA,COSTODOL,COSTOINVDOL,TOTALCOSTODOL,TOTALCOSTOINVDOL,
+            IMPCOMBUSTIBLE,CODVENPROD,COMIVEN,SOBREPRECIO,CODREG,NUMREG,ITEMREG,CANTIDADORIGINAL,CANTIDADMODIFICADA,NSERIETARJETA,
+            CODOC,NUMOC,PORTIMBREPRENSA,VALORTIMBREPRENSA,CODTIPODESCU,TOTALPUNTOS,ITEMOC,CODPRODORIGEN,CODMEDIDAORIGEN,
+            CANTIDADDEVUELTA,CODARANCEL,TIPOPRECIO,CODSUCURSAL) 
+            VALUES ('${p.EMPNIT}',${anio},${mes},'${coddoc}','${correlativo}',
+            ${p.ID},'${p.CODPROD}','${p.CODMEDIDA}',${p.CANTIDAD},${p.EQUIVALE},
+            ${p.TOTALUNIDADES},${p.COSTO},${p.PRECIO},${p.TOTALCOSTO},${p.TOTALPRECIO},
+            '','${codbodega}',${p.TOTALPRECIO},0,0,
+            0,0,0,'${p.DESPROD}',${p.TOTALPRECIO},
+            1,${p.PRECIO},0,'','',
+            0,0,0,${p.COSTO},0,${p.TOTALPRECIO},
+            ${p.PRECIO},${p.TOTALCOSTO},0,'','',0,'','',0,'P','',
+             0,0,'SN',0,'',0,'',0,0,${p.COSTO},0,${p.TOTALCOSTO},0,0,0,0,'','',0,0,0,'','',
+             '',0,0,'',0,0,'','',0,'','${p.TIPOPRECIO}','${sucursal}' 
+            );`
+        })
+
+       
+        //console.log(insertQry);
+        execute.Query(res,insertQry);
+
+    })  
+    .catch((err)=>{
+        console.log(err);
+    })        
 
     
-    execute.Query(res,qry);
 });
 
-// LISTA DE PEDIDOS POR UNA FECHA
-router.post("/BACKUP_listapedidos", async(req,res)=>{
-    const {sucursal,codven,fecha}  = req.body;
-    
-    let qry = '';
-    qry = `SELECT CODDOC, DOC_NUMERO AS CORRELATIVO, NITCLIE AS CODCLIE, DOC_NOMREF AS NOMCLIE, DOC_DIRENTREGA AS DIRCLIE, '' AS DESMUNI, ISNULL(DOC_TOTALVENTA,0) AS IMPORTE, DOC_FECHA AS FECHA, LAT, LONG, DOC_OBS AS OBS, DOC_MATSOLI AS DIRENTREGA, DOC_ESTATUS AS ST
-            FROM ME_Documentos
-            WHERE (CODSUCURSAL = '${sucursal}') AND (DOC_FECHA = '${fecha}') AND (CODVEN = ${codven}) AND (DOC_ESTATUS<>'A')`
 
-    
-    execute.Query(res,qry);
-});
 
 
 //reporte de productos del dia y vendedor
