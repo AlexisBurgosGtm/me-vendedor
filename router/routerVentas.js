@@ -1006,6 +1006,64 @@ router.post('/reportemarcasmes',async(req,res)=>{
 
 
 
+router.post('/update_alcance_clientes_mes',async(req,res)=>{
+
+    const {anio,mes,sucursal} = req.body;
+
+    let qry = `
+            UPDATE ME_CLIENTES 
+                SET VENTA=0 WHERE CODSUCURSAL='${sucursal}';
+            UPDATE ME_CLIENTES 
+                SET VENTA = (SELECT SUM(DOC_TOTALVENTA) FROM ME_DOCUMENTOS 
+                WHERE CODSUCURSAL=ME_CLIENTES.CODSUCURSAL 
+                AND NITCLIE=ME_CLIENTES.NITCLIE 
+                AND DOC_ANO=${anio} 
+                AND DOC_MES=${mes})
+            WHERE ME_CLIENTES.CODSUCURSAL='${sucursal}'`;
+
+                
+    execute.Query(res,qry);
+
+
+});
+
+router.post('/rpt_alcance_clientes_mes',async(req,res)=>{
+
+    const {sucursal} = req.body;
+
+    let qry = `SELECT ME_Clientes.CODVEN, ME_USUARIOS.NOMBRE AS NOMVEN, COUNT(ME_Clientes.NOMCLIE) AS UNIVERSO, SUM(CASE WHEN ISNULL(VENTA, 0) = 0 THEN 0 ELSE 1 END) AS ALCANCE
+                FROM ME_Clientes LEFT OUTER JOIN
+                    ME_USUARIOS ON ME_Clientes.CODVEN = ME_USUARIOS.CODUSUARIO AND ME_Clientes.CODSUCURSAL = ME_USUARIOS.CODSUCURSAL
+                WHERE (ME_Clientes.CODSUCURSAL = '${sucursal}') AND (ME_USUARIOS.TIPO = 'VENDEDOR')
+                GROUP BY ME_Clientes.CODVEN, ME_USUARIOS.NOMBRE
+                `;
+
+                
+    execute.Query(res,qry);
+
+
+});
+
+
+router.post('/rpt_clientes_novisitados',async(req,res)=>{
+
+    const {sucursal,codven} = req.body;
+
+    let qry = `
+    SELECT NOMCLIE, DIRCLIE, TELCLIE, LATITUD, LONGITUD, CODVEN, VISITA, ISNULL(VENTA,0) AS VENTA
+        FROM ME_Clientes
+        WHERE (CODSUCURSAL = '${sucursal}') AND CODVEN=${codven} AND ISNULL(VENTA,0)=0
+        ORDER BY VENTA
+                `;
+
+                
+    execute.Query(res,qry);
+
+
+});
+
+
+
 
 
 

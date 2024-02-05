@@ -251,6 +251,10 @@ let classNavegar = {
                                 <i class="fal fa-shopping-cart"></i>
                                 Reportes
                             </button>
+                            <button class="btn btn-sm "  id="btnMenu2SuperCobertura">
+                                <i class="fal fa-user"></i>
+                                Cobertura
+                            </button>
                             <button class="btn btn-sm "  id="btnMenu2SuperHorarios">
                                 <i class="fal fa-clock"></i>
                                 Horarios
@@ -271,6 +275,11 @@ let classNavegar = {
                     let btnMenu2SuperVentas = document.getElementById('btnMenu2SuperVentas');
                     btnMenu2SuperVentas.addEventListener('click',()=>{
                             classNavegar.supervisor_ventas();
+                    });
+
+                    let btnMenu2SuperCobertura = document.getElementById('btnMenu2SuperCobertura');
+                    btnMenu2SuperCobertura.addEventListener('click',()=>{
+                            classNavegar.supervisor_cobertura();
                     });
 
                     let btnMenu2SuperHorarios = document.getElementById('btnMenu2SuperHorarios');
@@ -300,6 +309,14 @@ let classNavegar = {
     },
     supervisor_ventas:()=>{
         funciones.loadScript('./views/supervisor/ventas.js','root')
+        .then(()=>{
+            GlobalSelectedForm ='SUPERVISOR';
+            initView();
+            //window.history.pushState({"page":2}, "facturacion", GlobalUrl + '/facturacion')
+        })
+    },
+    supervisor_cobertura:()=>{
+        funciones.loadScript('./views/supervisor/cobertura.js','root')
         .then(()=>{
             GlobalSelectedForm ='SUPERVISOR';
             initView();
