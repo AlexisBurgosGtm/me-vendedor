@@ -63,13 +63,14 @@ let apigen = {
                     if(pass=='JEETKUNEDO'){
 
                         GlobalCodSucursal = sucursal;
-                        GlobalCodUsuario = 0;
+                        GlobalCodUsuario = 99999;
                         GlobalUsuario = user;
                         GlobalPassUsuario = pass;
                         GlobalTipoUsuario = 'SUPERVISOR';
                         GlobalSelectedDiaUpdated = Number(f.getDate());
                                 
                         classNavegar.inicio_supervisor();
+                        
                         resolve();
                         return;
                     }

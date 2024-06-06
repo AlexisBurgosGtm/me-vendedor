@@ -40,7 +40,7 @@ function getView(){
                                             <i class="fal fa-user"></i>
                                         </span>
                                     </div>
-                                    <input class="form-control border-secondary border-top-0 border-right-0 border-left-0" type="text" id="txtUser" placeholder="Escriba su usuario" required="true">
+                                    <input class="form-control border-secondary border-top-0 border-right-0 border-left-0" type="text" id="txtUsr" placeholder="Escriba su usuario" required="true">
                                 </div>
                                 
                             </div>
@@ -103,24 +103,34 @@ function getView(){
 
 function addListeners(){
     
-    console.log('iniciando login... ');
+    GlobalCodSucursal = '';
+    console.log('iniciando login... ' + GlobalCodSucursal);
+    
+
     
     let frmLogin = document.getElementById('frmLogin');
     let btnIniciar = document.getElementById('btnIniciar');
     frmLogin.addEventListener('submit',(e)=>{
         e.preventDefault();
     
-        almacenarCredenciales();
-
+       
         btnIniciar.innerHTML = '<i class="fal fa-unlock fa-spin"></i>';
         btnIniciar.disabled = true;
 
-        apigen.empleadosLogin(frmLogin.cmbSucursal.value,frmLogin.txtUser.value.trim(),frmLogin.txtPass.value.trim())
+        let suc = document.getElementById('cmbSucursal').value;
+        let usu = document.getElementById('txtUsr').value;
+        let pas = document.getElementById('txtPass').value;
+        almacenarCredenciales()
+        //apigen.empleadosLogin(frmLogin.cmbSucursal.value,frmLogin.txtUser.value.trim(),frmLogin.txtPass.value.trim())
+        apigen.empleadosLogin(suc, usu.trim(), pas.trim())
         .then(()=>{
             
+            //almacenarCredenciales();
+
+
             //document.body.requestFullscreen();
             //por lo visto se deshabilitan las scroll bars en fullscreen
-            selectDateDownload();
+            //selectDateDownload();
         })
         .catch(()=>{
             btnIniciar.disabled = false;
@@ -137,6 +147,8 @@ function addListeners(){
         try {
             document.getElementById('cmbSucursal').value = GlobalCodSucursal;
             console.log(GlobalCodSucursal);
+
+            deleteDateDownload();
         } catch (error) {
             console.log('error al cargar sucursal')
             console.log(error)
@@ -196,16 +208,7 @@ function efecto_fireworks(){
     }, 250);
 };
 
-async function almacenarCredenciales(){
-    const cred = new PasswordCredential({
-        id: document.getElementById('txtUser').value,
-        name: document.getElementById('cmbSucursal').value,
-        password: document.getElementById('txtPass').value
-    })
 
-    await navigator.credentials.store(cred)
-
-};
 
 function getCredenciales(){
    if ('credentials' in navigator) {
