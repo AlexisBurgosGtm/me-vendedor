@@ -15,6 +15,15 @@ const config = {
 };
 
 
+const configX = {
+	user: 'sa',
+	password: 'aA1',
+	server: 'DESKTOP-E0KG096\\SQL17',
+	database: 'HOST_MERCADOS',
+	pool: {	max: 100,	min: 0,	idleTimeoutMillis: 30000}
+};
+
+
 const sql = require('mssql');
 
 let execute = {
