@@ -15,11 +15,13 @@ function getView(){
                     <div class="card-header text-center bg-white">
                         <div class="row">
                             <div id="parallax_logo" class="col-4">
-                                <img data-depth="1.0" src="./anuncio.png" width="120" height="120">                            
-                            </div>
-                            <div class="col-8 text-center">
-                                <h2 class="text-secondary negrita">Mercados</h2>
-                                <h2 class="text-secondary negrita">Efectivos</h2>
+                                <img data-depth="1.0" src="./anuncio.png" width="100" height="100">                            
+                            </div>    
+                            <div class="col-4">
+                                                            
+                            </div>  
+                             <div id="parallax_logo" class="col-4">
+                                <img data-depth="1.0" src="./img/logoag.png" width="70" height="70">                            
                             </div>    
                         </div>
                         
@@ -57,16 +59,27 @@ function getView(){
                             </div>
                             <br>
                             <div class="form-group" align="center">
-                                <button class="btn btn-secondary btn-lg shadow col-12 btn-rounded"  type="submit" id="btnIniciar">
-                                    <i class="fal fa-unlock"></i>
-                                    Ingresar
-                                </button>
+                                <div class="row">
+                                    
+                                    <div class="col-2">
+                                        <button class="btn btn-outline-info btn-lg col-12 shadow" onclick="funciones.shareAppWhatsapp();">
+                                            <i class="fal fa-paper-plane"></i>
+                                        </button>
+                                    </div>  
+                                    <div class="col-10">
+                                        <button class="btn btn-secondary btn-lg shadow col-12 btn-rounded"  type="submit" id="btnIniciar">
+                                            <i class="fal fa-unlock"></i>
+                                            Ingresar
+                                        </button>
+                                    </div> 
+                                                                 
+                                </div>
+
+                                
                             </div>
                             <div class="row">
                                 <div class="col-6">
-                                    <button class="btn btn-outline-info btn-sm shadow" onclick="funciones.shareAppWhatsapp();">
-                                        <i class="fal fa-paper-plane"></i> Enviar a un compañero
-                                    </button>
+                                    
                                 </div>
                                 <div class="col-6">
                                     <small class="">Mercados Efectivos - ${versionapp}</small>

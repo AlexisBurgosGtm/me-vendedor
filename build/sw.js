@@ -1,5 +1,5 @@
-const staticCacheName = 'pre-cache-v02-08-2024';
-const dynamicCacheName = 'runtime-cache-v02-08-2024';
+const staticCacheName = 'pre-cache-v15-10-2024';
+const dynamicCacheName = 'runtime-cache-v15-10-2024';
 
 console.log(staticCacheName);
 
@@ -12,6 +12,7 @@ const precacheAssets = [
     './css/fa-regular.css',
     './css/fa-brands.css',
     './css/btn.css',
+    './css/custom_theme.css',
     './css/bootstrap.min.css',
     './css/bootstrap-toggle.css',
     './css/app.bundle.css.map',
@@ -22,6 +23,7 @@ const precacheAssets = [
     './controllers/classNavegar.js',
     './controllers/classDb.js',
     './controllers/apicallsx.js',
+    './img/logoag.png',
     './img/usericon.png',
     './img/logo.png',
     './img/cog.png',

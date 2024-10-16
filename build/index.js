@@ -116,10 +116,6 @@ cmbTipoDb.addEventListener('change',()=>{
         case 'RENDER':
           GlobalUrlServicePedidos = 'https://backend-mercados-efectivos.onrender.com';
           break;
-      
-        case 'HEROKU':
-          GlobalUrlServicePedidos = 'https://mercados-efectivos-api.herokuapp.com';
-          break;
         default:
           GlobalUrlServicePedidos = '';
           break;
