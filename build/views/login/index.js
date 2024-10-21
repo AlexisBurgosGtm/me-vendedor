@@ -62,9 +62,7 @@ function getView(){
                                 <div class="row">
                                     
                                     <div class="col-2">
-                                        <button class="btn btn-outline-info btn-lg col-12 shadow" onclick="funciones.shareAppWhatsapp();">
-                                            <i class="fal fa-paper-plane"></i>
-                                        </button>
+                                       
                                     </div>  
                                     <div class="col-10">
                                         <button class="btn btn-secondary btn-lg shadow col-12 btn-rounded"  type="submit" id="btnIniciar">
