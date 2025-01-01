@@ -2,6 +2,43 @@ const execute = require('./connection');
 const express = require('express');
 const router = express.Router();
 
+
+
+router.post("/update_correlativo_auto", async(req,res)=>{
+    const {sucursal,coddoc} = req.body;
+        
+    let qry ='';
+
+    qry = `
+            SELECT MAX(CORRELATIVO) AS ULTIMO 
+            FROM DOCUMENTOS 
+            WHERE EMPNIT='${sucursal}' 
+            AND CODDOC='${coddoc}';
+            `     
+    
+    execute.QueryData(qry)
+    .then((data)=>{
+        let ultimo = 0;
+        data.recordset.map((r)=>{
+            ultimo = Number(r.ULTIMO);
+        })
+
+        let newQry = `UPDATE 
+            TIPODOCUMENTOS SET CORRELATIVO=${(ultimo+1)} 
+            WHERE EMPNIT='${sucursal}' 
+            AND CODDOC='${coddoc}';   `
+
+        execute.Query(res,newQry)
+    
+        
+    })
+    .catch(()=>{
+        res.send('error')
+    })
+
+});
+
+
 router.post("/updatecorrelativo", async(req,res)=>{
     const {sucursal,coddoc,correlativo} = req.body;
         

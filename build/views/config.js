@@ -27,12 +27,15 @@ function getView(){
                         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                             <div class="form-group">
                                 <label class="negrita text-info">Adelantar Correlativo de Pedidos</label>
-                                <input type="text" class="form-control" id="txtCorrelativo">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" disabled="true" id="txtCorrelativo">
+                                    <button class="btn btn-outline-info hand shadow" id="btnActualizarCorrelativo">
+                                        <i class="fal fa-save"></i>
+                                        Actualizar Correlativo
+                                    </button>
+                                </div>
                             </div>
-                            <button class="btn btn-outline-info btn-lg hand shadow" id="btnActualizarCorrelativo">
-                                <i class="fal fa-save"></i>
-                                Actualizar Correlativo
-                            </button>
+                            
                         </div>
 
                         <hr class="solid">
@@ -112,6 +115,15 @@ function addListeners(){
                 classTipoDocumentos.updateCorrelativoDocumento(GlobalCoddoc,nuevo)
                 .then(()=>{
                     funciones.Aviso('Correlativo actualizado Exitosamente!!');
+
+                    classTipoDocumentos.getCorrelativoDocumento('',GlobalCoddoc)
+                    .then((correlativo)=>{
+                        document.getElementById('txtCorrelativo').value = Number(correlativo.replace(' ',''));
+                    })
+                    .catch(()=>{
+                        document.getElementById('txtCorrelativo').value = '0';
+                    });
+                    
                     btnActualizarCorrelativo.disabled = false;
                     btnActualizarCorrelativo.innerHTML = `<i class="fal fa-save"></i>
                                                         Actualizar Correlativo`
