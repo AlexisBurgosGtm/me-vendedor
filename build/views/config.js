@@ -13,12 +13,15 @@ function getView(){
                         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                             <div class="form-group">
                                 <label class="negrita text-success">Nueva Clave de Inicio</label>
-                                <input type="text" class="form-control" id="txtPassNueva">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="txtPassNueva">
+                                    <button class="btn btn-outline-success hand shadow" id="btnActualizarPass">
+                                        <i class="fal fa-save"></i>
+                                        Cambiar Clave
+                                    </button>
+                                </div>
                             </div>
-                            <button class="btn btn-outline-success btn-lg hand shadow" id="btnActualizarPass">
-                                <i class="fal fa-save"></i>
-                                Cambiar Clave
-                            </button>
+                            
                         </div>
 
                         <hr class="solid">
