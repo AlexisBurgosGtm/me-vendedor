@@ -11,8 +11,8 @@ router.post("/update_correlativo_auto", async(req,res)=>{
 
     qry = `
             SELECT MAX(CORRELATIVO) AS ULTIMO 
-            FROM DOCUMENTOS 
-            WHERE EMPNIT='${sucursal}' 
+            FROM ME_DOCUMENTOS 
+            WHERE CODSUCURSAL='${sucursal}' 
             AND CODDOC='${coddoc}';
             `     
     
@@ -24,9 +24,13 @@ router.post("/update_correlativo_auto", async(req,res)=>{
         })
 
         let newQry = `UPDATE 
-            TIPODOCUMENTOS SET CORRELATIVO=${(ultimo+1)} 
-            WHERE EMPNIT='${sucursal}' 
-            AND CODDOC='${coddoc}';   `
+            ME_TIPODOCUMENTOS SET CORRELATIVO=${(ultimo+1)} 
+            WHERE CODSUCURSAL='${sucursal}' 
+            AND CODDOC='${coddoc}'; 
+            UPDATE 
+            ME_USUARIOS SET CORRELATIVO=${(ultimo+1)} 
+            WHERE CODSUCURSAL='${sucursal}' 
+            AND CODDOC='${coddoc}';     `
 
         execute.Query(res,newQry)
     

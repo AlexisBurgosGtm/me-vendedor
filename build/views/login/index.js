@@ -187,7 +187,7 @@ function InicializarVista(){
 
 function iniciar_efecto(){
     
-    //return;
+    return;
 
     funciones.loadScript('./efectos/confetti.browser.min.js','root_efecto')
     .then(()=>{
