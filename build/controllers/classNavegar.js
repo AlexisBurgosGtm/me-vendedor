@@ -245,7 +245,7 @@ let classNavegar = {
     inicio_supervisor : async ()=>{
         let strFooter =    `<button class="btn btn-sm "  id="btnMenu2SuperMapa">
                                 <i class="fal fa-map"></i>
-                                Gps Ventas
+                                Gps
                             </button> 
                             <button class="btn btn-sm "  id="btnMenu2SuperVentas">
                                 <i class="fal fa-shopping-cart"></i>
@@ -261,7 +261,11 @@ let classNavegar = {
                             </button>
                             <button class="btn btn-sm "  id="btnMenu2SuperPrecios">
                                 <i class="fal fa-box"></i>
-                                Lista Precios
+                                Precios
+                            </button>
+                             <button class="btn btn-sm "  id="btnMenu2SuperUsuarios">
+                                <i class="fal fa-unlock"></i>
+                                Usuarios
                             </button>
                             `
                     rootMenuFooter.innerHTML = strFooter;
@@ -290,6 +294,11 @@ let classNavegar = {
                     let btnMenu2SuperPrecios = document.getElementById('btnMenu2SuperPrecios');
                     btnMenu2SuperPrecios.addEventListener('click',()=>{
                             classNavegar.supervisor_precios();
+                    });
+
+                    let btnMenu2SuperUsuarios = document.getElementById('btnMenu2SuperUsuarios');
+                    btnMenu2SuperUsuarios.addEventListener('click',()=>{
+                            classNavegar.supervisor_usuarios();
                     });
 
                 
@@ -341,6 +350,14 @@ let classNavegar = {
     },
     supervisor_precios:()=>{
         funciones.loadScript('./views/supervisor/precios.js','root')
+        .then(()=>{
+            GlobalSelectedForm ='SUPERVISOR';
+            initView();
+            //window.history.pushState({"page":2}, "facturacion", GlobalUrl + '/facturacion')
+        })
+    },
+    supervisor_usuarios:()=>{
+        funciones.loadScript('./views/supervisor/usuarios.js','root')
         .then(()=>{
             GlobalSelectedForm ='SUPERVISOR';
             initView();

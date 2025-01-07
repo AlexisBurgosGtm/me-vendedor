@@ -36,6 +36,9 @@ router.post("/listado", async(req,res)=>{
 
 });
 
+
+
+
 // ELIMINA UN USUARIOS
 router.post("/eliminar", async(req,res)=>{
     
@@ -99,6 +102,59 @@ router.post("/editar", async(req,res)=>{
     
   
     execute.Query(res,qry + qryV);
+
+});
+
+
+
+
+router.post("/listado_supervisor", async(req,res)=>{
+    
+    const {sucursal} = req.body;
+    
+    let qry ='';
+    qry = `SELECT ID,CODUSUARIO as CODIGO,NOMBRE AS USUARIO,PASS AS CLAVE,TELEFONO,CODDOC,TIPO 
+            FROM ME_USUARIOS 
+            WHERE CODSUCURSAL='${sucursal}'AND TIPO IN('VENDEDOR','SUPERVISOR'); `;     
+  
+        
+    execute.Query(res,qry);
+
+});
+
+
+router.post("/update_clave", async(req,res)=>{
+    
+    const {codigo,sucursal,nuevaclave} = req.body;
+        
+    let qry ='';
+
+    qry = `UPDATE ME_USUARIOS 
+            SET 
+            PASS='${nuevaclave}'
+            WHERE ID=${codigo} AND CODSUCURSAL='${sucursal}';`;     
+
+          
+  
+    execute.Query(res,qry );
+
+});
+
+router.post("/update_usuario", async(req,res)=>{
+    
+    const {codigo,sucursal,nuevousuario} = req.body;
+        
+    let qry ='';
+
+    qry = `UPDATE ME_USUARIOS 
+            SET 
+            NOMBRE='${nuevousuario}'
+            WHERE ID=${codigo} AND CODSUCURSAL='${sucursal}';`;     
+
+            
+          
+  
+    execute.Query(res,qry );
 
 });
 
