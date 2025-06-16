@@ -260,6 +260,9 @@ let apigen = {
                                 <br>
                                 <small class="text-info">Ref:${rows.REFERENCIA}</small>
 
+                                <br>
+                                <small>GPS:${rows.LAT},${rows.LONG}</small>
+
                                 <div class="row">
                                     <div class="col-2">
                                         ${btnCallCliente}
@@ -320,6 +323,10 @@ let apigen = {
                                         
                                         <br>
                                         <small class="text-info">Ref:${rows.REFERENCIA}</small>
+                                        
+                                        <br>
+                                        <small>GPS:${rows.LAT},${rows.LONG}</small>
+
                                         <div class="row">
 
                                             <div class="col-2">

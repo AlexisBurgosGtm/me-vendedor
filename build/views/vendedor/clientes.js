@@ -746,33 +746,41 @@ async function addListeners(){
     
     await apigen.vendedorTotalDia(GlobalCodSucursal,GlobalCodUsuario,funciones.getFecha(),'lbTotalDia');
 
+    
     //verifica si hay pedidos pendientes
     dbCargarPedidosPendientes();
+
 
     //BOTON PARA CAMBIAR GPS EN MODAL EDIT CLIENTE
     document.getElementById('btnEditGps').addEventListener('click',()=>{
 
         funciones.Confirmacion('¿Está seguro que desea SOLICITAR CAMBIOS de Datos de este Cliente?')
-        .then(()=>{
-            let latitud = document.getElementById('txtEditLatitud').value;
-            let longitud = document.getElementById('txtEditLongitud').value;
-            let nombre = document.getElementById('txtEditNombre').value;
-    
-            let container = document.getElementById('gpsMap');
-            container.innerHTML = GlobalLoader;                 
-            let tbl = `<div class="mapcontainer4" id="mapcontainer"></div>`;        
-            container.innerHTML = tbl;
-    
-            var map;
-            map = Lmap(Number(latitud), Number(longitud));
-    
-            setTimeout(function(){try { map.invalidateSize(); } catch (error) { }}, 500);            
-              
-            $("#ModalGps").modal('show');
+        .then((value)=>{
+            if(value==true){
+
+                    let latitud = document.getElementById('txtEditLatitud').value;
+                    let longitud = document.getElementById('txtEditLongitud').value;
+                    let nombre = document.getElementById('txtEditNombre').value;
+            
+                    let container = document.getElementById('gpsMap');
+                    container.innerHTML = GlobalLoader;                 
+                    let tbl = `<div class="mapcontainer4" id="mapcontainer"></div>`;        
+                    container.innerHTML = tbl;
+            
+                    var map;
+                    map = Lmap(Number(latitud), Number(longitud));
+            
+                    setTimeout(function(){try { map.invalidateSize(); } catch (error) { }}, 500);            
+                    
+                    $("#ModalGps").modal('show');
+            }
         })
      
 
     });
+
+
+
 
     document.getElementById('btnAceptarNuevoGps').addEventListener('click',()=>{
 
@@ -788,40 +796,47 @@ async function addListeners(){
     btnEnviarCambiosCliente.addEventListener('click',()=>{
 
         funciones.Confirmacion('¿Está seguro que desea Enviar esta solicitud de Cambio de Datos?')
-        .then(()=>{
+        .then((value)=>{
+            if(value==true){
 
-            btnEnviarCambiosCliente.disabled = true;
-            btnEnviarCambiosCliente.innerHTML = '<i class="fal fa-paper-plane fa-spin"></i>';
-            
-            let nit = document.getElementById('txtEditNit').value || 'CF';
-            let tiponegocio = document.getElementById('cmbEditTipoNegocio').value || 'OTROS';
-            let negocio = document.getElementById('txtEditNegocio').value || 'SN';
-            let nombre = document.getElementById('txtEditNombre').value || 'SN';
-            let direccion = document.getElementById('txtEditDireccion').value || 'SN';
-            let telefono = document.getElementById('txtEditTelefono').value || '0';
-            let referencia = document.getElementById('txtEditReferencia').value || 'SN';
-            let latitud = document.getElementById('txtEditLatitud').value || 0;
-            let longitud = document.getElementById('txtEditLongitud').value || 0;
+                   
+                    
+                    let nit = document.getElementById('txtEditNit').value || 'CF';
+                    let tiponegocio = document.getElementById('cmbEditTipoNegocio').value || 'OTROS';
+                    let negocio = document.getElementById('txtEditNegocio').value || '';
+                    let nombre = document.getElementById('txtEditNombre').value || '';
+                    let direccion = document.getElementById('txtEditDireccion').value || 'CIUDAD';
+                    let telefono = document.getElementById('txtEditTelefono').value || '0';
+                    let referencia = document.getElementById('txtEditReferencia').value || 'SN';
+                    let latitud = document.getElementById('txtEditLatitud').value || 0;
+                    let longitud = document.getElementById('txtEditLongitud').value || 0;
 
-            
+                    
 
-            if (negocio=='SN'){funciones.AvisoError('Escriba el nombre del negocio');return;}
-            if (nombre=='SN'){funciones.AvisoError('Escriba el nombre del negocio');return;}
+                    if (negocio==''){funciones.AvisoError('Escriba el nombre del negocio');return;}
+                    if (nombre==''){funciones.AvisoError('Escriba el nombre del negocio');return;}
 
 
-            send_solicitud_cliente(GlobalSelectedCodCliente,nit,tiponegocio,negocio,nombre,direccion,telefono,referencia,latitud,longitud)
-            .then(()=>{
-                funciones.Aviso('Solicitud enviada exitosamente!!');
-                btnEnviarCambiosCliente.disabled = false;
-                btnEnviarCambiosCliente.innerHTML = '<i class="fal fa-paper-plane"></i>';
+                    btnEnviarCambiosCliente.disabled = true;
+                    btnEnviarCambiosCliente.innerHTML = '<i class="fal fa-paper-plane fa-spin"></i>';
 
-                $("#ModalCambiarDatosCliente").modal('hide');
-            })
-            .catch(()=>{
-                funciones.AvisoError('No se pudo enviar la solicitud');
-                btnEnviarCambiosCliente.disabled = false;
-                btnEnviarCambiosCliente.innerHTML = '<i class="fal fa-paper-plane"></i>';
-            })
+                    send_solicitud_cliente(GlobalSelectedCodCliente,nit,tiponegocio,negocio,nombre,direccion,telefono,referencia,latitud,longitud)
+                    .then(()=>{
+                        funciones.Aviso('Solicitud enviada exitosamente!!');
+                        btnEnviarCambiosCliente.disabled = false;
+                        btnEnviarCambiosCliente.innerHTML = '<i class="fal fa-paper-plane"></i>';
+
+                        $("#ModalCambiarDatosCliente").modal('hide');
+                    })
+                    .catch(()=>{
+                        funciones.AvisoError('No se pudo enviar la solicitud');
+                        btnEnviarCambiosCliente.disabled = false;
+                        btnEnviarCambiosCliente.innerHTML = '<i class="fal fa-paper-plane"></i>';
+                    })
+
+            }
+
+           
 
         });
 
