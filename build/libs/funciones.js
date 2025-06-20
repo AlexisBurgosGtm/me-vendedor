@@ -558,6 +558,28 @@ let funciones = {
             funciones.AvisoError(error.toString());
         }
     },
+    Obtiene_ubicacion_lat_long: async()=>{
+
+      return new Promise((resolve,reject)=>{
+          
+          try {
+              navigator.geolocation.getCurrentPosition(function (location) {
+                  selected_latitud = Number(location.coords.latitude.toString());
+                  selected_longitud = Number(location.coords.longitude.toString());
+                  resolve();
+              })
+          } catch (error) {
+              //funciones.AvisoError(error.toString());
+              selected_latitud = 0;
+              selected_longitud = 0;
+              resolve();
+          }
+
+      })
+        
+         
+
+    },
     ComboSemana :(letnum)=>{
       let str = '';
       if(letnum=="LETRAS"){

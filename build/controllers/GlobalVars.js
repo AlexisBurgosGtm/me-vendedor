@@ -1,5 +1,5 @@
 
-let versionapp = 'Mod:16.06.2025';
+let versionapp = 'Mod:20.06.2025';
 let GlobalServerUrl = '';
 let GlobalUrlServicePedidos = '';
 
@@ -63,7 +63,8 @@ let GlobalTipoCobro = 'TERMINAR';
 
 let GlobalSelectedCodven = 0;
 
-
+let selected_latitud = 0;
+let selected_longitud = 0;
 
 let GlobalSelectedCodCliente;
 let GlobalSelectedNomCliente;

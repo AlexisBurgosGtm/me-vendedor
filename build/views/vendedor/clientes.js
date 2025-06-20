@@ -767,12 +767,36 @@ async function addListeners(){
                     let tbl = `<div class="mapcontainer4" id="mapcontainer"></div>`;        
                     container.innerHTML = tbl;
             
-                    var map;
-                    map = Lmap(Number(latitud), Number(longitud));
-            
-                    setTimeout(function(){try { map.invalidateSize(); } catch (error) { }}, 500);            
-                    
-                    $("#ModalGps").modal('show');
+                    if(Number(latitud.toFixed(0))==0){
+                            funciones.Obtiene_ubicacion_lat_long()
+                            .then(()=>{
+
+                                console.log(selected_latitud)
+                                console.log(selected_longitud)
+
+                                    var map;
+                                    map = Lmap(Number(selected_latitud), Number(selected_longitud));
+                            
+                                    setTimeout(function(){try { map.invalidateSize(); } catch (error) { }}, 500);            
+                                    
+                                    $("#ModalGps").modal('show');
+                                    
+                            })
+                    }else{
+                                    var map;
+                                    map = Lmap(Number(latitud), Number(longitud));
+                            
+                                    setTimeout(function(){try { map.invalidateSize(); } catch (error) { }}, 500);            
+                                    
+                                    $("#ModalGps").modal('show');
+                    }
+
+                  
+
+                
+
+
+
             }
         })
      
