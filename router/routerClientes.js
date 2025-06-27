@@ -6,11 +6,12 @@ const router = express.Router();
 
 router.post("/solicitud_cambios_cliente", async(req,res)=>{
 
-    const{sucursal,codclie,nitclie,tiponegocio,negocio,nomclie,dirclie,telefono,referencia,lat,long} = req.body;
+    const{sucursal,codclie,nitclie,tiponegocio,negocio,nomclie,dirclie,telefono,referencia,lat,long,fecha} = req.body;
 
     let qry = `INSERT INTO ME_CENSO_SOLICITUDES (
-            CODSUCURSAL, CODCLIE,NITCLIE,TIPONEGOCIO,NEGOCIO,NOMCLIE,DIRCLIE,TELEFONO,REFERENCIA,LAT,LONG)
-    VALUES ('${sucursal}',${codclie},'${nitclie}','${tiponegocio}','${negocio}','${nomclie}','${dirclie}','${telefono}','${referencia}',${lat},${long});`
+            CODSUCURSAL, CODCLIE,NITCLIE,TIPONEGOCIO,NEGOCIO,NOMCLIE,DIRCLIE,TELEFONO,REFERENCIA,LAT,LONG,FECHA)
+    VALUES ('${sucursal}',${codclie},'${nitclie}','${tiponegocio}','${negocio}','${nomclie}','${dirclie}','${telefono}',
+    '${referencia}',${lat},${long},'${fecha}');`
     
  
     

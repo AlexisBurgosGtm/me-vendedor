@@ -1167,7 +1167,8 @@ function send_solicitud_cliente(codclie,nitclie,tiponegocio,negocio,nomclie,dirc
            telefono:telefono,
            referencia: referencia,
            lat: lat,
-           long: long
+           long: long,
+           fecha:funciones.getFecha()
         })
         .then((response) => {
             console.log(response);
