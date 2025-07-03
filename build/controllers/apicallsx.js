@@ -190,7 +190,7 @@ let apigen = {
                 });
             })
         },
-        clientesVendedor: async(sucursal,codven,dia,idContenedor,idContenedorVisitados)=>{
+        clientesVendedor: async(sucursal,codven,dia,idContenedor,idContenedorVisitados,idLbTotalClientes)=>{
         
             let container = document.getElementById(idContenedor);
             container.innerHTML = GlobalLoader;
@@ -198,6 +198,7 @@ let apigen = {
             let containerVisitados = document.getElementById(idContenedorVisitados);
             
             let strdata = ''; let strdataVisitados = '';
+            let varItems = 0;
 
             selectCliente(dia)
             .then((response) => {
@@ -295,6 +296,7 @@ let apigen = {
                             }else{
                                 btnCallCliente = `<button class="btn btn-circle btn-secondary btn-md" onclick="funciones.phone_call('${rows.TELEFONO}')"><i class="fal fa-phone"></i></button>`
                             }
+                            varItems += 1;
                             strdata = strdata + `
                                 <tr class='card col-12 border-secondary card-rounded p-2 shadow col-12'>
                                     <td>${rows.NEGOCIO} // ${rows.NOMCLIE}
@@ -358,12 +360,14 @@ let apigen = {
                 })
                 container.innerHTML = strdata;
                 containerVisitados.innerHTML = strdataVisitados;
+                document.getElementById(idLbTotalClientes).innerText = `Pendientes: ${varItems}`
 
             }, (error) => {
                 funciones.AvisoError('Error en la solicitud');
                 strdata = '';
                 containerVisitados.innerHTML = 'No se pudo cargar la lista';
                 container.innerHTML = 'No se pudo cargar la lista';
+                document.getElementById(idLbTotalClientes).innerText = ''
             });
             
             

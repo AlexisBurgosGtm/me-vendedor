@@ -173,6 +173,9 @@ function getView(){
                     <label class="negrita text-primary" id="lbNombreDia">Clientes del día</label>             <button class="btn btn-sm btn-warning shadow hand" id="btnVvisitados">
                                                                             Ver visitados ->>
                                                                         </button>
+                    <br>
+                    <label class="negrita text-info" id="lbTotalClientesConteo"></label>
+                    <br>                                                
                     <input type="text" id="txtFiltrarCliente" class="form-control border-primary" placeholder="Buscar en la lista...">
                
 
@@ -690,7 +693,6 @@ async function addListeners(){
                 apigen.updateClientesLastSale(GlobalSelectedCodCliente,'CERRADO')
                 .then(async()=>{
                     funciones.Aviso('TIENDA CERRADA');
-                    //await apigen.clientesVendedor(GlobalCodSucursal,GlobalCodUsuario,cmbDiaVisita.value,'tblClientes','tblClientesVisitados')
                 })
                 .catch(()=>{
                     funciones.AvisoError('No se marcar esta tienda. Inténtelo de nuevo')
@@ -711,7 +713,6 @@ async function addListeners(){
                 apigen.updateClientesLastSale(GlobalSelectedCodCliente,'NODINERO')
                 .then(async()=>{
                     funciones.Aviso('TIENDA SIN DINERO');
-                    //await apigen.clientesVendedor(GlobalCodSucursal,GlobalCodUsuario,cmbDiaVisita.value,'tblClientes','tblClientesVisitados')
                 })
                 .catch(()=>{
                     funciones.AvisoError('No se marcar esta tienda. Inténtelo de nuevo')
@@ -736,7 +737,6 @@ async function addListeners(){
         funciones.FiltrarTabla('tblLista','txtFiltrarCliente');
     });
 
-    //await apigen.clientesVendedor(GlobalCodSucursal,GlobalCodUsuario,cmbDiaVisita.value,'tblClientes','tblClientesVisitados')
 
     let btnClientesAjenosBuscar = document.getElementById('btnClientesAjenosBuscar');
     btnClientesAjenosBuscar.addEventListener('click', async ()=>{
@@ -1134,7 +1134,7 @@ function getListaClientes(nodia){
     if(nodia=='AJENOS'){
         document.getElementById('tab-ajenos').click();
     }else{
-        apigen.clientesVendedor(GlobalCodSucursal,GlobalCodUsuario,nodia,'tblClientes','tblClientesVisitados');
+        apigen.clientesVendedor(GlobalCodSucursal,GlobalCodUsuario,nodia,'tblClientes','tblClientesVisitados','lbTotalClientesConteo');
         document.getElementById('tab-no-visitados').click();
     };
 
