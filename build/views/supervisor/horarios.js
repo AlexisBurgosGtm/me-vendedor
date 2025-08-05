@@ -94,7 +94,7 @@ function addListeners(){
 
     document.getElementById('txtFecha').value = funciones.getFecha();
 
-    apigen.comboVendedores(GlobalCodSucursal,'cmbVendedor')
+    apigen.comboVendedores2(GlobalCodSucursal,'cmbVendedor')
     .then(()=>{
         let codven = document.getElementById('cmbVendedor').value;
         apigen.supervisor_pedidos_vendedor_horarios(GlobalCodSucursal,codven,funciones.devuelveFecha('txtFecha'),'tblVtaDia','lbTotalVentadia')

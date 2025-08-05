@@ -1,18 +1,11 @@
 
-let versionapp = 'Mod:02.07.2025';
+let versionapp = 'Mod:05.08.2025';
 let GlobalServerUrl = '';
 let GlobalUrlServicePedidos = '';
 
 async function almacenarCredenciales(){
         
-    const cred = new PasswordCredential({
-        id: GlobalCodSucursal, //document.getElementById('txtUser').value,
-        name: GlobalUsuario, //document.getElementById('cmbSucursal').value,
-        password: GlobalPassUsuario //document.getElementById('txtPass').value
-    })
-
-    await navigator.credentials.store(cred)
-
+    
 };
 
 
