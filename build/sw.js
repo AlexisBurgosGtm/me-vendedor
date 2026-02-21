@@ -1,5 +1,5 @@
-const staticCacheName = 'pre-cache-v20-2-2026.0';
-const dynamicCacheName = 'runtime-cache-v02-8-2026.0';
+const staticCacheName = 'pre-cache-v20-2-2026.1';
+const dynamicCacheName = 'runtime-cache-v02-8-2026.1';
 
 console.log(staticCacheName);
 
